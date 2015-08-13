@@ -25,6 +25,8 @@ GEM
     currencies (0.4.2)
     email_validator (1.6.0)
       activemodel
+    faker (1.4.3)
+      i18n (~> 0.5)
     i18n (0.7.0)
     i18n_data (0.7.0)
     json (1.8.3)
@@ -89,6 +91,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   email_validator (~> 1.6.0)
+  faker
   phony_rails (~> 0.12.9)
   pry
   puma
@@ -101,4 +104,4 @@ DEPENDENCIES
   tux
 
 BUNDLED WITH
-   1.10.5
+   1.10.6
