@@ -15,7 +15,6 @@ Faker::Config.locale = 'en-CA'
 end
 
 @num_customers = Customer.all.count
-
 @num_drivers = Driver.all.count
 # binding.pry
 
