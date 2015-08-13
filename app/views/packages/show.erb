@@ -1,0 +1,61 @@
+<h1> Your Package Details</h1>
+
+
+<h2> <%= @package.title %></h2>
+
+
+<div> 
+  Status: 
+  <% if @package.ready_for_pickup %>
+    Ready for Pickup 
+
+    <!--    if user is a driver 
+      accept delivery 
+   -->
+
+  <% elsif @package.accepted %>
+    Accepted
+
+<!--    if user is a driver 
+      Cancel delivery 
+   -->
+
+  <% elsif @package.picked_up %> 
+    Picked Up 
+  <% elsif @package.delivered %> 
+    Delivered 
+  <% end %>
+  <br/> 
+  Origin: <%= @package.origin %>
+  <br/> 
+  Destination: <%= @package.destination %>
+  <br/>
+  Dimensions (L x W x H): <%= @package.length %> x <%= @package.width %> x <%= @package.height %> 
+  <br/>
+  Notes: <%= @package.notes %>
+
+</div>
+
+<div class="package_info"> 
+
+  <!-- IF USER IS A CUSTOMER:  ########## --> 
+  <a href='/packages/<%=@package.id %>/edit'> Edit Your Package Details </a>
+  <br/> 
+
+  <% if @package.ready_for_pickup %> 
+    Your package has not been accepted yet. You may still cancel your delivery. 
+    <br/> 
+    <form method="post" action="/packages/<%=@package.id %>">
+      <input type="hidden" name="_method" value="delete"> 
+      <input type="submit" value="Delete Package">
+    </form>
+  <% end %> 
+
+  <br/>
+  <div> 
+    Your Driver's Information
+    
+  </div>
+
+
+</div>
