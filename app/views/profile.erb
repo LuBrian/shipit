@@ -1,0 +1,17 @@
+<h1>Profile Page</h1>
+
+<h1><%= @user.first_name %> <%= @user.last_name %></h1>
+
+<div class="profile">
+  <% if User.find_by(email: @user.email).type == "Driver" %>
+    <p id="email"><%= @user.email %></p>
+    <p id="phone_number"><%= @user.phone_number %></p>
+    <p id="license"><%= @user.license %></p>
+    <p id="license_expiry"><%= @user.license_expiry %></p>
+    <p id="province"><%= @user.province %></p>
+  <% elsif User.find_by(email: @user.email).type == "Customer" %>
+    <p id="email"><%= @user.email %></p>
+    <p id="phone_number"><%= @user.phone_number %></p>
+  <% end %>
+
+</div>

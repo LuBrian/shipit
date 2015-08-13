@@ -1,0 +1,20 @@
+<% if @messages %>
+    <div>
+    <strong> Invalid Login </strong>
+    <ul>
+      <% @messages.each do |message| %>
+      <li> <%= message %> </li>
+    </ul>
+      <% end %>
+    </div>
+<% end %>
+
+<h1>Sign In</h1>
+  <form action="/login" method="POST">
+    <label for="email">Email:</label>
+    <input type="text" id="" name="email"> <br>
+    <label for="password_hash">Password:</label>
+    <input type="password_hash" id="" name="password_hash">
+    <input type="submit" value="Log In">
+  </form>
+<span>Don't have an account?<a href="/signup_customer">Sign Up</a></span>
