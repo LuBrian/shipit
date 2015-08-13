@@ -15,6 +15,7 @@ group :development, :test do
   gem 'pry'
   gem 'shotgun'
   gem 'sqlite3'
+  gem 'faker'
 end
 
 gem 'email_validator', '~> 1.6.0'
