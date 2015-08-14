@@ -59,7 +59,7 @@ post '/login' do
   @user = get_user(params[:email], params[:password_hash])
   @current_user = current_user
   if !@user.nil?
-    erb :'profile'
+    redirect :'profile'
   else
 	  #@messages is in the login .erb (see below)
     @messages = ['Invalid login credentials']
@@ -83,42 +83,76 @@ get '/signup_driver' do
 end
 
 post '/signup_customer' do
-	@user = Customer.new(
-    first_name: params[:first_name],
-    last_name: params[:last_name],
-		email: params[:email],
-		password_hash: params[:password_hash],
-		phone_number: params[:phone_number]
-	)
-	if @user.save
-    session[:id] = @user.id
-    @current_user = current_user
-		erb :'profile'
-	else
-		erb :'signup_customer'
-	end
+  @current_user = current_user
+  if @current_user && @current_user.type == 'Customer'
+    @current_user.update_attributes(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number]
+    )
+    if @current_user.save
+      redirect :'profile'
+    else
+      erb :'signup_customer'
+    end
+
+  else
+    @current_user = Customer.new(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number]
+    )
+    if @current_user.save
+      session[:id] = @current_user.id
+      erb :'profile'
+    else
+      erb :'signup_customer'
+    end
+  end
 end
 
 
 post '/signup_driver' do
-	@user = Driver.create(
-    first_name: params[:first_name],
-    last_name: params[:last_name],
-		email: params[:email],
-		password_hash: params[:password_hash],
-		phone_number: params[:phone_number],
-    license: params[:license],
-    license_expiry: params[:license_expiry],
-    province: params[:province]
-	)
-	if @user.save
-  # if @user.persisted? 
-    session[:id] = @user.id
-    @current_user = current_user
-		erb :'profile'
-	else
-		erb :'signup_driver'
-	end
+ @current_user = current_user
+  if @current_user && @current_user.type == 'Driver'
+    @current_user.update_attributes(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number],
+      license: params[:license],
+      license_expiry: params[:license_expiry],
+      province: params[:province]
+    )
+    if @current_user.save
+      redirect :'profile'
+    else
+      erb :'signup_driver'
+    end
+
+  else    
+    @current_user = Driver.create(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number],
+      license: params[:license],
+      license_expiry: params[:license_expiry],
+      province: params[:province]
+    )
+    if @current_user.save
+      session[:id] = @current_user.id
+      erb :'profile'
+    else
+      erb :'signup_driver'
+    end
+  end
 end
 
 get '/dashboard' do #show all packages /packages
@@ -136,10 +170,15 @@ get '/profile' do
 end
 
 get '/profile/edit' do
-  is_session_valid?
   @current_user = current_user
-  erb :'edit'
-  #get file from Brian
+  # erb :'edit'
+  case @current_user.type
+  when 'Customer'
+    erb :signup_customer
+  when 'Driver'
+    erb :signup_driver
+  end
+
 end
 
 # after successful edit
@@ -247,7 +286,7 @@ get '/packages/:id/edit' do
   is_session_valid?
   @current_user = current_user
   @package = Package.find_by(id: params[:id])
-  if @current_user.id == @package.user_id 
+  if @current_user.id == @package.customer_id 
     erb :'/packages/edit'
   else 
     redirect '/'
@@ -261,7 +300,7 @@ put '/packages/:id' do
   @current_user = current_user
   if @current_user.is_a?(Customer)
     @package = Package.find_by(id: params[:id])
-    if @package && @current_user.id == @package.user_id 
+    if @package && @current_user.id == @package.customer_id 
       if @package.update(
         title: params[:title],
         recipient: params[:recipient], 
@@ -290,7 +329,7 @@ delete '/packages/:id' do
   is_session_valid?
   @current_user = current_user
   @package = Package.find_by(id: params[:id])
-  if @package && @current_user.id == @package.user_id 
+  if @package && @current_user.id == @package.customer_id 
     @package.destroy
   end 
   # redirect doesn't work yet, waiting on index page
