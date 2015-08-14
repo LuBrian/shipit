@@ -9,9 +9,9 @@
   <% if @package.ready_for_pickup %>
     Ready for Pickup 
 
-    <!--    if user is a driver 
-      accept delivery 
-   -->
+    <% if @current_user == "Driver" %>
+      <b> Accept this delivery </b>
+    <% end %> 
 
   <% elsif @package.accepted %>
     Accepted
