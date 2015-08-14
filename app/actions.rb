@@ -59,20 +59,31 @@ get '/signup_driver' do
 end
 
 post '/signup_customer' do
-	@user = Customer.new(
-    first_name: params[:first_name],
-    last_name: params[:last_name],
-		email: params[:email],
-		password_hash: params[:password_hash],
-		phone_number: params[:phone_number]
-	)
-	if @user.save
-    session[:id] = @user.id
-    current_user
-		erb :'profile'
-	else
-		erb :'signup_customer'
-	end
+  if current_user && current_user.type = 'Customer'
+    current_user.update_attributes(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number]
+    )
+    redirect '/profile'
+  else
+  	@user = Customer.new(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+  		email: params[:email],
+  		password_hash: params[:password_hash],
+  		phone_number: params[:phone_number]
+  	)
+    if @user.save
+      session[:id] = @user.id
+      current_user
+      erb :'profile'
+    else
+      erb :'signup_customer'
+    end
+  end
 end
 
 
@@ -112,7 +123,13 @@ end
 
 get '/profile/edit' do
   current_user
-  erb :'edit'
+  # erb :'edit'
+  case current_user.type
+  when 'Customer'
+    erb :signup_customer
+  when 'Driver'
+    erb :signup_driver
+  end
 end
 
 # after successful edit
