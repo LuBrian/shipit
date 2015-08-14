@@ -1,17 +1,19 @@
 <h1>Profile Page</h1>
 
-<h1><%= @user.first_name %> <%= @user.last_name %></h1>
+<h1><%= @current_user.first_name %> <%= @current_user.last_name %></h1>
 
 <div class="profile">
-  <% if User.find_by(email: @user.email).type == "Driver" %>
-    <p id="email"><%= @user.email %></p>
-    <p id="phone_number"><%= @user.phone_number %></p>
-    <p id="license"><%= @user.license %></p>
-    <p id="license_expiry"><%= @user.license_expiry %></p>
-    <p id="province"><%= @user.province %></p>
-  <% elsif User.find_by(email: @user.email).type == "Customer" %>
-    <p id="email"><%= @user.email %></p>
-    <p id="phone_number"><%= @user.phone_number %></p>
+  <% if @current_user.type == "Driver" %>
+    <p id="email"><%= @current_user.email %></p>
+    <p id="phone_number"><%= @current_user.phone_number %></p>
+    <p id="license"><%= @current_user.license %></p>
+    <p id="license_expiry"><%= @current_user.license_expiry %></p>
+    <p id="province"><%= @current_user.province %></p>
+
+  <% elsif @current_user.type == "Customer" %>
+    <p id="email"><%= @current_user.email %></p>
+    <p id="phone_number"><%= @current_user.phone_number %></p>
   <% end %>
 
+  <input type="submit" value="Submit">
 </div>

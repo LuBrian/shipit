@@ -5,7 +5,6 @@
 	</div>
 </div>
 
-
 <form action="/signup_customer" method="POST">
 	<div class="row">
 		<div class="input-field col s6 offset-s3">
@@ -20,35 +19,41 @@
 			<input type="password" id="password" class="validate" name="password_hash">
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="col s6 offset-s3">
 			<h2>Profile</h2>
 		</div>
 	</div>
-  	<div class="row">
-  		<div class="input-field col s6 offset-s3">
-  			<label for="first_name">First Name:</label>
-			<input type="text" id="first_name" class="validate" name="first_name"><br>
-  		</div>
+
+  <div class="row">
+		<div class="input-field col s6 offset-s3">
+			<label for="first_name">First Name:</label>
+		<input type="text" id="first_name" class="validate" name="first_name"><br>
+		</div>
 	</div>
+
 	<div class="row">
 		<div class="input-field col s6 offset-s3">
 			<label for="last_name">Last Name:</label>
 			<input type="text" id="last_name" class="validate" name="last_name">
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="input-field col s6 offset-s3">
 			<label for="phone_number">Phone Number:</label>
 			<input type="text" id="phone_number" class="validate" name="phone_number">
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="col s6 offset-s3">
 			<button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
 		</div>
 	</div>
 </form>
+
 <div class="row">
 	<div class="col s6 offset-s3">
 		<span>Are you a driver?<a href="/signup_driver"> Become a driver</a></span>

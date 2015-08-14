@@ -11,7 +11,6 @@ helpers do
     user = User.find_by(email: email)
 
     if user && user.password_hash == password_hash
-      # session[:email] = user.email
       session[:id] = user.id
       user
     end
@@ -34,6 +33,7 @@ end
 
 post '/login' do
   @user = get_user(params[:email], params[:password_hash])
+  current_user
   if !@user.nil?
     erb :'profile'
   else
@@ -68,12 +68,12 @@ post '/signup_customer' do
 	)
 	if @user.save
     session[:id] = @user.id
+    current_user
 		erb :'profile'
 	else
 		erb :'signup_customer'
 	end
 end
-
 
 
 post '/signup_driver' do
@@ -88,7 +88,9 @@ post '/signup_driver' do
     province: params[:province]
 	)
 	if @user.save
+  # if @user.persisted? 
     session[:id] = @user.id
+    current_user
 		erb :'profile'
 	else
 		erb :'signup_driver'
@@ -103,11 +105,13 @@ end
 get '/profile' do
   #change this to redirect to homepage
   halt 401, "not allowed" unless session[:id]
+  current_user
+  # @current_user
   erb :'profile'
 end
 
 get '/profile/edit' do
-  @user = Driver.find params[:email]
+  current_user
   erb :'edit'
 end
 
@@ -153,6 +157,7 @@ end
 
 #this is where you can see the edit button
 get '/packages/:id' do
+  current_user
   @package = Package.find(params[:id])
   erb :'/packages/show'
 end 
