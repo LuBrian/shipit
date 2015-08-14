@@ -7,7 +7,7 @@ Faker::Config.locale = 'en-CA'
 		last_name: Faker::Name.last_name,
 		email: Faker::Internet.email,
 		password_hash: Faker::Internet.password(10, 20),
-		phone_number: Faker::PhoneNumber.phone_number,
+		phone_number: '1234567891',
 		type: ['Driver', 'Customer'][Random.rand(2)],
 		license: Random.rand(1000000..9999999).to_s, province: Faker::Address.state,
 		license_expiry: Faker::Date.forward(2000)
@@ -16,12 +16,12 @@ end
 
 @num_customers = Customer.all.count
 @num_drivers = Driver.all.count
-# binding.pry
 
 20.times do
 	Package.create({
 		title: Faker::Commerce.product_name,
 		origin: Faker::Address.street_address,
+		recipient: Faker::Name.first_name,
 		destination: Faker::Address.street_address,
 		length: 1 + Random.rand(100), # cm
 		width: 1 + Random.rand(100), # cm
