@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813230001) do
+ActiveRecord::Schema.define(version: 20150814033555) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
@@ -21,15 +21,14 @@ ActiveRecord::Schema.define(version: 20150813230001) do
     t.integer  "width"
     t.integer  "height"
     t.text     "notes"
-    t.boolean  "accepted"
-    t.boolean  "ready_for_pickup"
-    t.boolean  "picked_up"
-    t.boolean  "delivered"
     t.integer  "customer_id"
     t.integer  "driver_id"
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "assigned_time"
+    t.datetime "pick_up_time"
+    t.datetime "delivery_time"
   end
 
   create_table "users", force: :cascade do |t|

@@ -5,26 +5,62 @@
 
 
 <div> 
-  Status: 
-  <% if @package.ready_for_pickup %>
+ 
+ Status: 
+
+  <% if @package.driver_id.nil? %>
     Ready for Pickup 
 
-    <% if @current_user == "Driver" %>
-      <b> Accept this delivery </b>
+     <% if @current_user.type == "Driver" %>
+      <br/> 
+        <form method="post" action="/packages/<%=@package.id %>">
+          <input type="hidden" name="event" value="assign">
+          <input type="submit" value="Accept this Delivery">
+        </form>
     <% end %> 
 
-  <% elsif @package.accepted %>
-    Accepted
+  <% elsif @package.driver_id && @package.pick_up_time.nil? %>
+    Accepted at <%= @package.assigned_time.strftime('%c') %>
+    <!-- button to cancel set driver_id, assigned_time to nil -->
+    <!-- button to pickup set pick_up_time -->
 
-<!--    if user is a driver 
-      Cancel delivery 
-   -->
+    <% if @current_user.type == "Driver" %>
+      <br/> 
+        <form method="post" action="/packages/<%=@package.id %>">
+          <input type="hidden" name="event" value="cancel">
+          <input type="submit" value="Cancel this Delivery">
+        </form>
+    <% end %> 
 
-  <% elsif @package.picked_up %> 
-    Picked Up 
-  <% elsif @package.delivered %> 
-    Delivered 
-  <% end %>
+    <% if @current_user.type == "Driver" %>
+      <br/> 
+        <form method="post" action="/packages/<%=@package.id %>">
+          <input type="hidden" name="event" value="picked_up">
+          <input type="submit" value="Picked Up">
+        </form>
+    <% end %> 
+
+  <% elsif  @package.pick_up_time && @package.delivery_time.nil? %>
+    Picked Up at <%= @package.pick_up_time %>
+   <!-- button to deliver set delivered_time -->
+
+     <% if @current_user.type == "Driver" %>
+      <br/> 
+        <form method="post" action="/packages/<%=@package.id %>">
+          <input type="hidden" name="event" value="delivered">
+          <input type="submit" value="Delivered">
+        </form>
+    <% end %> 
+
+   <% elsif  @package.delivery_time %> 
+    Delivered at <%= @package.delivery_time %>
+  <% end %> 
+
+
+   
+
+  
+
   <br/> 
   Origin: <%= @package.origin %>
   <br/> 
@@ -36,26 +72,29 @@
 
 </div>
 
-<div class="package_info"> 
+<div> 
 
-  <!-- IF USER IS A CUSTOMER:  ########## --> 
-  <a href='/packages/<%=@package.id %>/edit'> Edit Your Package Details </a>
-  <br/> 
+  <% if @current_user.type == "Customer" %>
 
-  <% if @package.ready_for_pickup %> 
-    Your package has not been accepted yet. You may still cancel your delivery. 
+    <a href='/packages/<%=@package.id %>/edit'> Edit Your Package Details </a>
     <br/> 
-    <form method="post" action="/packages/<%=@package.id %>">
-      <input type="hidden" name="_method" value="delete"> 
-      <input type="submit" value="Delete Package">
-    </form>
-  <% end %> 
+
+    <% if @package.driver_id.nil? %> 
+      Your package has not been accepted yet. You may still cancel your delivery. 
+      <br/> 
+      <form method="post" action="/packages/<%=@package.id %>">
+        <input type="hidden" name="_method" value="delete"> 
+        <input type="submit" value="Delete Package">
+      </form>
+    <% end %> 
 
   <br/>
   <div> 
     Your Driver's Information
     
   </div>
+
+  <% end %>
 
 
 </div>

@@ -4,7 +4,7 @@ helpers do
 
   def current_user
     # who is logged in
-    @current_user = User.find(session[:id]) if session[:id]
+    User.find_by(id: session[:id]) if session[:id]
   end
 
   def get_user(email, password_hash)
@@ -16,6 +16,30 @@ helpers do
     end
   end
 
+  def not_found 
+    status 404
+    erb :oops
+  end
+
+  def can_assign_package?
+    @package.driver_id.nil? && @current_user.is_a?(Driver)
+  end
+
+  def is_session_valid?
+    redirect '/login' unless session[:id]
+  end 
+
+  def can_cancel? 
+    @package.driver_id == @current_user.id
+  end 
+
+  def can_pickup?
+    @package.driver_id == @current_user.id
+  end 
+
+  def can_deliver?
+    @package.driver_id == @current_user.id && @package.pick_up_time
+  end 
 end 
 
 configure do
@@ -33,7 +57,7 @@ end
 
 post '/login' do
   @user = get_user(params[:email], params[:password_hash])
-  current_user
+  @current_user = current_user
   if !@user.nil?
     erb :'profile'
   else
@@ -68,7 +92,7 @@ post '/signup_customer' do
 	)
 	if @user.save
     session[:id] = @user.id
-    current_user
+    @current_user = current_user
 		erb :'profile'
 	else
 		erb :'signup_customer'
@@ -90,7 +114,7 @@ post '/signup_driver' do
 	if @user.save
   # if @user.persisted? 
     session[:id] = @user.id
-    current_user
+    @current_user = current_user
 		erb :'profile'
 	else
 		erb :'signup_driver'
@@ -99,27 +123,32 @@ end
 
 get '/dashboard' do #show all packages /packages
   # display all packages
+  is_session_valid?
   erb :'/packages/index'
 end
 
 get '/profile' do
   #change this to redirect to homepage
-  halt 401, "not allowed" unless session[:id]
-  current_user
+  is_session_valid?
+  @current_user = current_user
   # @current_user
   erb :'profile'
 end
 
 get '/profile/edit' do
-  current_user
+  is_session_valid?
+  @current_user = current_user
   erb :'edit'
+  #get file from Brian
 end
 
 # after successful edit
 put '/profile' do
+  is_session_valid?
 end
 
 delete '/profile' do
+  is_session_valid?
 end
 
 
@@ -127,25 +156,34 @@ end
 
 
 get '/packages/new'do
-  @package = Package.new
-  erb :'/packages/new'
+  is_session_valid?
+  @current_user = current_user 
+  if @current_user.is_a?(Customer)
+    @package = Package.new
+    erb :'/packages/new'
+  else 
+    redirect '/'
+  end 
 end 
 
 post '/packages/new' do 
-  @package = Package.create(
-    title: params[:title],
-    recipient: params[:recipient],
-    origin: params[:origin],
-    destination: params[:destination],
-    length: params[:length],
-    width: params[:width],
-    height: params[:height],
-    notes: params[:notes],
-    ready_for_pickup: true,
-    accepted: false,
-    picked_up: false,
-    delivered: false
-    )
+  is_session_valid?
+  @current_user = current_user 
+  if @current_user.is_a?(Customer)
+    @package = Package.create(
+      title: params[:title],
+      recipient: params[:recipient],
+      origin: params[:origin],
+      destination: params[:destination],
+      length: params[:length],
+      width: params[:width],
+      height: params[:height],
+      notes: params[:notes],
+      customer_id: @current_user.id
+      )
+  else
+    redirect '/'
+  end 
 
   if @package.persisted?
     redirect "/packages/#{@package.id}"
@@ -157,35 +195,90 @@ end
 
 #this is where you can see the edit button
 get '/packages/:id' do
-  current_user
-  @package = Package.find(params[:id])
-  erb :'/packages/show'
+  is_session_valid?
+  @current_user = current_user
+  @package = Package.find_by(id: params[:id]) 
+  if @package
+    erb :'/packages/show'
+  else 
+    not_found
+  end 
+end 
+
+post '/packages/:id' do
+  is_session_valid?
+  @current_user = current_user 
+  @package = Package.find_by(id: params[:id]) 
+  if @package
+    event = params[:event]
+
+    case event 
+    when "assign"
+      if can_assign_package?
+        @package.driver_id = @current_user.id
+        @package.assigned_time = Time.now.in_time_zone("Pacific Time (US & Canada)") 
+        @package.save 
+      end 
+    when "cancel"
+      if can_cancel? #if you are assigned
+        @package.driver_id = nil 
+        @package.assigned_time = nil
+      end 
+    when "picked_up"
+      if can_pickup? #if you are assigned
+        @package.pick_up_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @package.save
+      end 
+    when "delivered"
+      if can_deliver? #if you have picked up && assigned
+        @package.delivery_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @package.save
+      end 
+    end 
+    erb :'/packages/show'
+  else 
+    not_found
+  end 
+  
 end 
 
 #this is where you redirect to when you click the edit button
 get '/packages/:id/edit' do
-  @package = Package.find(params[:id])
-  erb :'/packages/edit'
+  is_session_valid?
+  @current_user = current_user
+  @package = Package.find_by(id: params[:id])
+  if @current_user.id == @package.user_id 
+    erb :'/packages/edit'
+  else 
+    redirect '/'
+  end 
 end 
 
 # this is where you see the edit form
 ## !! Must only be available to CUSTOMERS 
 put '/packages/:id' do 
-  # CUSTOMER EDITING ABILITIES 
-  @package = Package.find(params[:id])
-  if @package.update(
-    title: params[:title],
-    recipient: params[:recipient], 
-    origin: params[:origin],
-    destination: params[:destination],
-    length: params[:length],
-    width: params[:width],
-    height: params[:height],
-    notes: params[:notes]
-    )
-    erb :'/packages/show'
-  else 
-    erb :'/packages/edit'
+  is_session_valid?
+  @current_user = current_user
+  if @current_user.is_a?(Customer)
+    @package = Package.find_by(id: params[:id])
+    if @package && @current_user.id == @package.user_id 
+      if @package.update(
+        title: params[:title],
+        recipient: params[:recipient], 
+        origin: params[:origin],
+        destination: params[:destination],
+        length: params[:length],
+        width: params[:width],
+        height: params[:height],
+        notes: params[:notes]
+        )
+        erb :'/packages/show'
+      else 
+        erb :'/packages/edit'
+      end 
+    else 
+      redirect '/'
+    end 
   end 
   # DRIVER ACCEPTING ABILITIES 
 
@@ -194,8 +287,12 @@ end
 
 delete '/packages/:id' do 
   # ensure that only the owner of the package can delete it 
-  @package = Package.find(params[:id])
-  @package.destroy
+  is_session_valid?
+  @current_user = current_user
+  @package = Package.find_by(id: params[:id])
+  if @package && @current_user.id == @package.user_id 
+    @package.destroy
+  end 
   # redirect doesn't work yet, waiting on index page
   redirect '/packages/index'
 end 
