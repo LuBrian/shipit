@@ -32,6 +32,6 @@ end
 		picked_up: [false, true][Random.rand(2)],
 		delivered: [false, true][Random.rand(2)],
 		customer_id: 1 + Random.rand(@num_customers - 1),
-		driver_id: nil,
+		driver_id: 1 + Random.rand(@num_drivers - 1),
 	})
 end
