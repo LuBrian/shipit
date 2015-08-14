@@ -59,7 +59,7 @@ post '/login' do
   @user = get_user(params[:email], params[:password_hash])
   @current_user = current_user
   if !@user.nil?
-    redirect :'profile'
+    redirect :'dashboard'
   else
 	  #@messages is in the login .erb (see below)
     @messages = ['Invalid login credentials']
@@ -158,6 +158,8 @@ end
 get '/dashboard' do #show all packages /packages
   # display all packages
   is_session_valid?
+  @current_user = current_user
+  @packages = Package.all
   erb :'/packages/index'
 end
 

@@ -38,11 +38,16 @@
       <a href="#!" class="brand-logo">Shipit</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="/">Home</a></li>
-        <li><a href="/signup_customer">Sign Up</a></li>
+        <% unless session[:id] %>
+          <li><a href="/login">Signin</a></li>
+          <li><a href="/signup_customer">Sign Up</a></li>
+        <% else %>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        <% end %>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="/">Home</a></li>
         <li><a href="/signup_customer">Sign Up</a></li>
       </ul>
     </div>
