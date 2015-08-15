@@ -1,15 +1,16 @@
 .btn {
-  background-color: #64b5f6;
+  background-color: #64b5f6 !important;
   box-shadow: none;
+  text-transform: none;
 }
 
 .btn:hover {
-  background-color: #039be5;
+  background-color: #039be5 !important;
   box-shadow: none;
 }
 
 .btn:focus {
-  color: #64b5f6;
+  background-color: #64b5f6 !important;
 }
 
 /*Form Customization*/
@@ -30,3 +31,12 @@ h1.title, .input-field label {
 nav .brand-logo {
   margin: 5px 0 0 0;
 }
+
+/*Media Queries*/
+
+@media only screen
+  and (min-width: 993px) {
+    .container {
+      width: 85% !important;
+    }
+  }
