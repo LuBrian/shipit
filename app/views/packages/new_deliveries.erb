@@ -1,0 +1,15 @@
+<h1> New Deliveries </h1>
+
+<% @new_packages.each do |package| %>
+  <a href="/packages/<%= package.id %>">  
+    <div>
+      <p>
+        <% if package.driver_id.nil? %>
+        Ready for Pickup 
+        <% end %>
+        <%= package.title %><%= package.origin %><%= package.destination %>
+      </p>
+    </div>
+  </a>
+<% end %>
+
