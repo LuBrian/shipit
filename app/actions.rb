@@ -52,7 +52,12 @@ get '/' do
 end
 
 get '/login' do
-	erb :login
+  @current_user = current_user
+  if @current_user
+    redirect '/'
+  else 
+	 erb :login
+  end
 end
 
 
@@ -190,14 +195,18 @@ get '/profile/edit' do
 
 end
 
-# after successful edit
-put '/profile' do
-  is_session_valid
-end
 
 delete '/profile' do
   is_session_valid
+  # @current_user = current_user
+
+  current_user.destroy
+  session.clear
+  redirect '/login'
 end
+
+
+
 
 
 ## CUSTOMER/DRIVER PAGES ## 
@@ -246,8 +255,11 @@ get '/packages/:id' do
   is_session_valid
   @current_user = current_user
   @package = Package.find_by(id: params[:id]) 
-  @driver = Driver.find(@package.driver_id)
+  
   if @package
+    if !@package.driver_id.nil?
+      @driver = Driver.find(@package.driver_id)
+    end 
     erb :'/packages/show'
   else 
     not_found
@@ -366,3 +378,18 @@ get '/history' do
   @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
   erb :'/history'
 end 
+
+
+post '/uploads' do
+  @current_user = current_user 
+  @filename = params[:file_info][:filename]
+  file = params[:file_info][:tempfile]
+
+  File.open("./public/uploads/#{@filename}", 'wb') do |f|
+    f.write(file.read)
+  end
+  @current_user.update_attributes(avatar: @filename)
+  
+  erb :'/profile'
+end
+

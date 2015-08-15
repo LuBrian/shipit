@@ -80,7 +80,9 @@
         <h1> Your Driver's Information </h1>
 
         Driver ID: <%= @package.driver_id%> 
-        <%= @driver.first_name %>
+        <% if @driver %> 
+          <%= @driver.first_name %>
+        <% end %> 
 
       </div>
 
