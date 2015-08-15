@@ -1,0 +1,14 @@
+<h1> Past Deliveries </h1>
+
+<% @past_driver_packages.each do |package| %>
+  <a href="/packages/<%= package.id %>">  
+    <div>
+      <p>
+        <% if package.delivery_time %> 
+          Delivered at <%= package.delivery_time %>
+        <% end %>
+        <%= package.title %><%= package.origin %><%= package.destination %>
+      </p>
+    </div>
+  </a>
+<% end %>

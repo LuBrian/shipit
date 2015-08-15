@@ -33,36 +33,78 @@
       </ul>
     </div>
   </nav> -->
-   <nav>
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Shipit</a>
+
+  <nav>
+    <div class="nav-wrapper red">
+      <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <!-- web menu nav-bar -->
       <ul class="right hide-on-med-and-down">
-      <li><a href="/">Home</a></li>
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
           <li><a href="/signup_customer">Sign Up</a></li>
         <% else %>
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/profile">Profile</a></li>
+          <% if @current_user && @current_user.type == "Customer" %> 
+            <li><a href="/packages/new">New Package</a></li>
+            <li><a href="/dashboard">My Packages</a></li>
+          <% elsif @current_user && @current_user.type == "Driver" %> 
+            <li><a href="/dashboard">My Deliveries</a></li>
+            <li><a href="/new_deliveries">New Deliveries</a></li>
+            <li><a href="/history">History</a></li>
+          <% end %>
+          <li><a href="/profile">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
+      <!-- mobile menu nav-bar -->
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="/">Home</a></li>
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
           <li><a href="/signup_customer">Sign Up</a></li>
         <% else %>
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/profile">Profile</a></li>
+          <% if @current_user && @current_user.type == "Customer" %> 
+            <li><a href="/packages/new">New Package</a></li>
+            <li><a href="/dashboard">My Packages</a></li>
+          <% elsif @current_user && @current_user.type == "Driver" %> 
+            <li><a href="/dashboard">My Deliveries</a></li>
+            <li><a href="/new_deliveries">New Deliveries</a></li>
+            <li><a href="/history">History</a></li>
+        <% end %>
+          <li><a href="/profile">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
     </div>
-  </nav> 
+  </nav>
   <div class="container">
     <%= yield %>
-  </div> 
+  </div>
+
+  <footer class="page-footer red">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Footer Content</h5>
+          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">More</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="#!">Home</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Sign Up</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Contact Us</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Lighthouse Labs</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2015 Ship It Co.
+      <a class="grey-text text-lighten-4 right" href="#!">About Us</a>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

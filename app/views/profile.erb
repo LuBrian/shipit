@@ -1,6 +1,12 @@
-<h1>Profile Page</h1>
+<% if !@current_user.avatar.nil? %>
 
-<h1><%= @current_user.first_name %> <%= @current_user.last_name %></h1>
+  <div > 
+    <img style="max-width: 100px;" src="/uploads/<%=@current_user.avatar%>"/>
+  </div>
+
+<% end %> 
+
+<h2><%= @current_user.first_name %> <%= @current_user.last_name %></h2>
 
 <div class="profile">
   <% if @current_user.type == "Driver" %>
@@ -14,6 +20,13 @@
     <p id="email"><%= @current_user.email %></p>
     <p id="phone_number"><%= @current_user.phone_number %></p>
   <% end %>
+</div>
+
+<form action='/uploads' method="POST" enctype="multipart/form-data">
+  <input type="file" name="file_info">
+  <button type="submit">UPLOAD</button>
+</form>
+
 
 <form action="/profile/edit" method="POST">
   <input type="hidden" name="_method" value="get">
@@ -22,56 +35,4 @@
 
 </div>
 
-<p>
-<!DOCTYPE html>
-<html>
 
-
-  <head>
-    <title>Directions service</title>
-    <style>
-      #map {
-        height: 500px; 
-        width: 500px;
-      }
-    </style>
-  </head>
-
-
-  <body>
-    <input id="start" type="textbox" value="<%= current_user.first_name %>" style="display: none" onchange="calcRoute();">
-    <input id="end" type="textbox" value="<%= current_user.last_name %>" style="display: none" onchange="calcRoute();">
-    <div id="map"></div>
-
-
-    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
-        async defer></script>
-    <script>
-function initMap() {
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-  });
-  directionsDisplay.setMap(map);
-
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-  directionsService.route({
-    origin: document.getElementById('start').value,
-    destination: document.getElementById('end').value,
-    travelMode: google.maps.TravelMode.DRIVING
-  }, function(response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
-}
-    </script>
-  </body>
-</html>
-</p>

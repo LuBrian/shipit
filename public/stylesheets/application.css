@@ -1,0 +1,32 @@
+.btn {
+  background-color: #64b5f6;
+  box-shadow: none;
+}
+
+.btn:hover {
+  background-color: #039be5;
+  box-shadow: none;
+}
+
+.btn:focus {
+  color: #64b5f6;
+}
+
+/*Form Customization*/
+
+input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #64b5f6;
+  box-shadow: 0 1px 0 0 #64b5f6;
+}
+
+/*Formatting*/
+
+h1.title, .input-field label {
+  color: #d32f2f;
+}
+
+/*Logo*/
+
+nav .brand-logo {
+  margin: 5px 0 0 0;
+}
