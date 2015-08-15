@@ -337,4 +337,10 @@ delete '/packages/:id' do
 end 
 
 
+get '/map' do
+  @packages_json = Package.all.to_json # address (string) of the destination
 
+  # @origins = []
+  # Package.all.each { |package| @origins << package.origin }
+  erb :map, layout: :layout_map
+end
