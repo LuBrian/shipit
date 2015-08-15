@@ -75,6 +75,17 @@
 </form>
 
 <div class="row">
+		<div class="col s6 offset-s3">
+			<% if current_user %>
+				<form action="/profile" method="POST">
+				  <input type="hidden" name="_method" value="delete">
+				  <input type="submit" class="btn btn-default btn-xs" value="DELETE ACOUNT">
+				</form>
+			<% end %>
+		</div>
+</div>
+
+<div class="row">
 	<div class="col s6 offset-s3">
 		<span>Are you a driver?<a href="/signup_driver"> Become a driver</a></span>
 	</div>

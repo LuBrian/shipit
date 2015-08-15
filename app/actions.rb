@@ -181,12 +181,9 @@ get '/profile/edit' do
 
 end
 
-# after successful edit
-put '/profile' do
-  is_session_valid?
-end
-
 delete '/profile' do
+  current_user.destroy
+  session.clear
   is_session_valid?
 end
 
