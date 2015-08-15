@@ -365,6 +365,7 @@ get '/map' do
   # @origins = []
   # Package.all.each { |package| @origins << package.origin }
   erb :map, layout: :layout_map
+end
 
 get '/new_deliveries' do 
   is_session_valid
