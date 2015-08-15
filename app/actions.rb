@@ -81,11 +81,11 @@ end
 
 
 get '/signup_customer' do
-	erb :'signup_customer'
+	erb :'profile/signup_customer'
 end
 
 get '/signup_driver' do
-	erb :'signup_driver'
+	erb :'profile/signup_driver'
 end
 
 post '/signup_customer' do
@@ -99,9 +99,9 @@ post '/signup_customer' do
     )
     if @current_user.save
       session[:id] = @current_user.id
-      erb :'profile'
+      erb :'profile/index'
     else
-      erb :'signup_customer'
+      erb :'profile/signup_customer'
     end
 end
 
@@ -121,9 +121,9 @@ post '/signup_driver' do
   )
   if @current_user.save
       session[:id] = @current_user.id
-      erb :'profile'
+      erb :'profile/index'
   else
-      erb :'signup_driver'
+      erb :'profile/signup_driver'
   end
 
 end
@@ -145,12 +145,12 @@ end
 get '/profile' do
   is_session_valid
   @current_user = current_user
-  erb :'profile'
+  erb :'profile/index'
 end
 
 get '/profile/edit' do
   @current_user = current_user
-  erb :'edit'
+  erb :'profile/edit'
 end
 
 put '/profile' do 
@@ -167,9 +167,9 @@ put '/profile' do
       province: params[:province]
     )
     if @current_user.save
-      erb :'profile'
+      erb :'profile/index'
     else
-      erb :'edit'
+      erb :'profile/edit'
     end
 
   elsif @current_user && @current_user.type == 'Customer'
@@ -181,21 +181,17 @@ put '/profile' do
       phone_number: params[:phone_number]
     )
     if @current_user.save
-      erb :'profile'
+      erb :'profile/index'
     else
-      erb :'edit'
+      erb :'profile/edit'
     end
+  end
 end
 
-
-
-end
 
 
 delete '/profile' do
   is_session_valid
-  # @current_user = current_user
-
   current_user.destroy
   session.clear
   redirect '/login'
