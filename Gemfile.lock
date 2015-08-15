@@ -18,12 +18,18 @@ GEM
     backports (3.6.6)
     bond (0.5.1)
     builder (3.2.2)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     coderay (1.1.0)
     faker (1.4.3)
       i18n (~> 0.5)
     i18n (0.7.0)
     json (1.8.3)
     method_source (0.8.2)
+    mime-types (2.6.1)
     minitest (5.8.0)
     multi_json (1.11.2)
     pry (0.10.1)
@@ -78,6 +84,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  carrierwave
   faker
   pry
   puma

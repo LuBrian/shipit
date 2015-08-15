@@ -1,3 +1,11 @@
+<% if !@current_user.avatar.nil? %>
+
+  <div > 
+    <img style="max-width: 100px;" src="/uploads/<%=@current_user.avatar%>"/>
+  </div>
+
+<% end %> 
+
 <h2><%= @current_user.first_name %> <%= @current_user.last_name %></h2>
 
 <div class="profile">
@@ -12,6 +20,12 @@
     <p id="email"><%= @current_user.email %></p>
     <p id="phone_number"><%= @current_user.phone_number %></p>
   <% end %>
-
-
 </div>
+
+<form action='/uploads' method="POST" enctype="multipart/form-data">
+  <input type="file" name="file_info">
+  <button type="submit">UPLOAD</button>
+</form>
+
+
+
