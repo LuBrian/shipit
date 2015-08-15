@@ -175,7 +175,7 @@ get '/dashboard' do
   erb :'/packages/index'
 end
 
-get '/profile' do
+get '/profile' do 
   #change this to redirect to homepage
   is_session_valid
   @current_user = current_user
