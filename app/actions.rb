@@ -195,14 +195,18 @@ get '/profile/edit' do
 
 end
 
-# after successful edit
-put '/profile' do
-  is_session_valid
-end
 
 delete '/profile' do
   is_session_valid
+  # @current_user = current_user
+
+  current_user.destroy
+  session.clear
+  redirect '/login'
 end
+
+
+
 
 
 ## CUSTOMER/DRIVER PAGES ## 

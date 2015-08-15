@@ -33,10 +33,12 @@
       </ul>
     </div>
   </nav> -->
+
   <nav>
     <div class="nav-wrapper red">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <!-- web menu nav-bar -->
       <ul class="right hide-on-med-and-down">
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
@@ -49,15 +51,28 @@
             <li><a href="/dashboard">My Deliveries</a></li>
             <li><a href="/new_deliveries">New Deliveries</a></li>
             <li><a href="/history">History</a></li>
-
           <% end %>
-          
           <li><a href="/profile">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
+      <!-- mobile menu nav-bar -->
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="/signup_customer">Sign Up</a></li>
+        <% unless session[:id] %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup_customer">Sign Up</a></li>
+        <% else %>
+          <% if @current_user && @current_user.type == "Customer" %> 
+            <li><a href="/packages/new">New Package</a></li>
+            <li><a href="/dashboard">My Packages</a></li>
+          <% elsif @current_user && @current_user.type == "Driver" %> 
+            <li><a href="/dashboard">My Deliveries</a></li>
+            <li><a href="/new_deliveries">New Deliveries</a></li>
+            <li><a href="/history">History</a></li>
+        <% end %>
+          <li><a href="/profile">My Account</a></li>
+          <li><a href="/logout">Logout</a></li>
+        <% end %>
       </ul>
     </div>
   </nav>
