@@ -1,10 +1,23 @@
-<% if !@current_user.avatar.nil? %>
+<div class="row">
+  <% if !@current_user.avatar.nil? %>
+    <div class="col s12 m12 l12 center">
+      <img id="avatar" src="/uploads/<%=@current_user.avatar%>"/>
+    </div>
+  <% end %>
+</div>
 
-  <div>
-    <img style="max-width: 100px;" src="/uploads/<%=@current_user.avatar%>"/>
+<div class="row">
+  <div class="col s12 m12 l12 center">
+    <form action='/uploads' method="POST" enctype="multipart/form-data">
+      <div class="fileUpload btn btn-primary">
+        <span>Choose File</span>
+        <input type="file" class="upload" name="file_info" />
+      </div>
+      <button style="font-size: 10px; height: 28px;
+    line-height: 31px;"class="btn waves-effect waves-light" type="submit">Upload</button>
+    </form>
   </div>
-
-<% end %>
+</div>
 
 <h2><%= @current_user.first_name %> <%= @current_user.last_name %></h2>
 
@@ -21,13 +34,6 @@
     <p id="phone_number"><%= @current_user.phone_number %></p>
   <% end %>
 </div>
-
-<form action='/uploads' method="POST" enctype="multipart/form-data">
-  <input type="file" name="file_info">
-  <button class="btn waves-effect waves-light" type="submit">Upload</button>
-  <!-- <button type="submit">Upload</button> -->
-</form>
-
 
 <form action="/profile/edit" method="POST">
   <input type="hidden" name="_method" value="get">
