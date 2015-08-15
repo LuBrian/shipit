@@ -378,9 +378,12 @@ end
 
 post '/uploads' do
   @current_user = current_user 
+  if !@current_user.avatar.nil?
+    File.delete("./public/uploads/#{@current_user.avatar}") if File.exist?("./public/uploads/#{@current_user.avatar}")
+  end 
+  
   @filename = params[:file_info][:filename]
   file = params[:file_info][:tempfile]
-
   File.open("./public/uploads/#{@filename}", 'wb') do |f|
     f.write(file.read)
   end
