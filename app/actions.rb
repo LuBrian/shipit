@@ -9,7 +9,7 @@ helpers do
 
   def get_user(email, password_hash)
     user = User.find_by(email: email)
-
+    # binding.pry
     if user && user.password_hash == password_hash
       session[:id] = user.id
       user
@@ -25,7 +25,7 @@ helpers do
     @package.driver_id.nil? && @current_user.is_a?(Driver)
   end
 
-  def is_session_valid?
+  def is_session_valid
     redirect '/login' unless session[:id]
   end 
 
@@ -47,11 +47,17 @@ configure do
 end
 
 get '/' do
+  @current_user = current_user
   erb :index
 end
 
 get '/login' do
-	erb :login
+  @current_user = current_user
+  if @current_user
+    redirect '/'
+  else 
+	 erb :login
+  end
 end
 
 
@@ -59,7 +65,7 @@ post '/login' do
   @user = get_user(params[:email], params[:password_hash])
   @current_user = current_user
   if !@user.nil?
-    redirect :'profile'
+    redirect :'dashboard'
   else
 	  #@messages is in the login .erb (see below)
     @messages = ['Invalid login credentials']
@@ -155,15 +161,23 @@ post '/signup_driver' do
   end
 end
 
-get '/dashboard' do #show all packages /packages
-  # display all packages
-  is_session_valid?
+get '/dashboard' do
+  is_session_valid
+  @current_user = current_user
+  @all_packages = Package.all
+  @customer_packages = @all_packages.where(customer_id: @current_user.id ).order(:created_at)
+
+
+  @driver_packages = @all_packages.where(driver_id: @current_user.id ).order(:pick_up_time)
+  @new_packages = @all_packages.where(driver_id: nil ).order(:created_at)
+  @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
+
   erb :'/packages/index'
 end
 
 get '/profile' do
   #change this to redirect to homepage
-  is_session_valid?
+  is_session_valid
   @current_user = current_user
   # @current_user
   erb :'profile'
@@ -181,21 +195,25 @@ get '/profile/edit' do
 
 end
 
-# after successful edit
-put '/profile' do
-  is_session_valid?
-end
 
 delete '/profile' do
-  is_session_valid?
+  is_session_valid
+  # @current_user = current_user
+
+  current_user.destroy
+  session.clear
+  redirect '/login'
 end
+
+
+
 
 
 ## CUSTOMER/DRIVER PAGES ## 
 
 
 get '/packages/new'do
-  is_session_valid?
+  is_session_valid
   @current_user = current_user 
   if @current_user.is_a?(Customer)
     @package = Package.new
@@ -206,7 +224,7 @@ get '/packages/new'do
 end 
 
 post '/packages/new' do 
-  is_session_valid?
+  is_session_valid
   @current_user = current_user 
   if @current_user.is_a?(Customer)
     @package = Package.create(
@@ -234,10 +252,14 @@ end
 
 #this is where you can see the edit button
 get '/packages/:id' do
-  is_session_valid?
+  is_session_valid
   @current_user = current_user
   @package = Package.find_by(id: params[:id]) 
+  
   if @package
+    if !@package.driver_id.nil?
+      @driver = Driver.find(@package.driver_id)
+    end 
     erb :'/packages/show'
   else 
     not_found
@@ -245,7 +267,7 @@ get '/packages/:id' do
 end 
 
 post '/packages/:id' do
-  is_session_valid?
+  is_session_valid
   @current_user = current_user 
   @package = Package.find_by(id: params[:id]) 
   if @package
@@ -262,6 +284,7 @@ post '/packages/:id' do
       if can_cancel? #if you are assigned
         @package.driver_id = nil 
         @package.assigned_time = nil
+        @package.save
       end 
     when "picked_up"
       if can_pickup? #if you are assigned
@@ -283,7 +306,7 @@ end
 
 #this is where you redirect to when you click the edit button
 get '/packages/:id/edit' do
-  is_session_valid?
+  is_session_valid
   @current_user = current_user
   @package = Package.find_by(id: params[:id])
   if @current_user.id == @package.customer_id 
@@ -296,7 +319,7 @@ end
 # this is where you see the edit form
 ## !! Must only be available to CUSTOMERS 
 put '/packages/:id' do 
-  is_session_valid?
+  is_session_valid
   @current_user = current_user
   if @current_user.is_a?(Customer)
     @package = Package.find_by(id: params[:id])
@@ -326,7 +349,7 @@ end
 
 delete '/packages/:id' do 
   # ensure that only the owner of the package can delete it 
-  is_session_valid?
+  is_session_valid
   @current_user = current_user
   @package = Package.find_by(id: params[:id])
   if @package && @current_user.id == @package.customer_id 
@@ -339,8 +362,37 @@ end
 
 get '/map' do
   @packages_json = Package.all.to_json # address (string) of the destination
-
   # @origins = []
   # Package.all.each { |package| @origins << package.origin }
   erb :map, layout: :layout_map
+
+get '/new_deliveries' do 
+  is_session_valid
+  @current_user = current_user
+  @all_packages = Package.all
+  @new_packages = @all_packages.where(driver_id: nil ).order(:created_at)
+  @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
+  erb :'/packages/new_deliveries'
+end 
+
+get '/history' do 
+  is_session_valid
+  @current_user = current_user
+  @all_packages = Package.all
+  @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
+  erb :'/history'
+end 
+
+post '/uploads' do
+  @current_user = current_user 
+  @filename = params[:file_info][:filename]
+  file = params[:file_info][:tempfile]
+
+  File.open("./public/uploads/#{@filename}", 'wb') do |f|
+    f.write(file.read)
+  end
+  @current_user.update_attributes(avatar: @filename)
+  
+  erb :'/profile'
 end
+

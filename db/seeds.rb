@@ -38,10 +38,10 @@ end
 		notes: Faker::Lorem.sentence(3),
 		created_at: created_at,
 		updated_at: updated_at,
-		assigned_time: assigned_time,
-		pick_up_time: pick_up_time,
-		delivery_time: delivery_time,
+		assigned_time: nil,
+		pick_up_time: nil,
+		delivery_time: nil,
 		customer_id: 1 + Random.rand(@num_customers - 1),
-		driver_id: 1 + Random.rand(@num_drivers - 1),
+		driver_id: nil,
 	})
 end

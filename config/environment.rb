@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'active_support/all'
+# require 'carrierwave/orm/activerecord'
 
 # Load Sinatra Framework (with AR)
 require 'sinatra'
@@ -29,3 +30,8 @@ require APP_ROOT.join('config', 'database')
 
 # Load the routes / actions
 require APP_ROOT.join('app', 'actions')
+
+
+
+
+
