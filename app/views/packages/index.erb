@@ -1,7 +1,7 @@
 <% if @current_user.type == 'Customer'%>
     <h1> Your Packages </h1>
 
-  <% @packages.where(customer_id: @current_user.id ).order(:created_at).each do |package| %>
+  <% @customer_packages.each do |package| %>
     <a href="/packages/<%= package.id %>">  
       <div>
         <p>
@@ -16,13 +16,14 @@
           <% end %>
           <%= package.title %><%= package.origin %><%= package.destination %></p>
       </div>
+      <br/>
     </a>
   <% end %>
 
 <% elsif @current_user.type == 'Driver'%>
   <h1> Your Deliveries </h1>
 
-  <% @packages.where(driver_id: @current_user.id ).order(:pick_up_time).each do |package| %>
+  <% @driver_packages.each do |package| %>
     <a href="/packages/<%= package.id %>">  
       <div>
         <p>
@@ -38,7 +39,7 @@
 
   <h1> New Deliveries </h1>
 
-  <% @packages.where(driver_id: nil ).order(:created_at).each do |package| %>
+  <% @new_packages.each do |package| %>
     <a href="/packages/<%= package.id %>">  
       <div>
         <p>
@@ -53,7 +54,7 @@
 
   <h1> Past Deliveries </h1>
 
-  <% @packages.where(driver_id: @current_user.id).order(:delivery_time).each do |package| %>
+  <% @past_driver_packages.each do |package| %>
     <a href="/packages/<%= package.id %>">  
       <div>
         <p>
