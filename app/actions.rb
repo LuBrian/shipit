@@ -90,21 +90,6 @@ end
 
 post '/signup_customer' do
   @current_user = current_user
-  if @current_user && @current_user.type == 'Customer'
-    @current_user.update_attributes(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      email: params[:email],
-      password_hash: params[:password_hash],
-      phone_number: params[:phone_number]
-    )
-    if @current_user.save
-      redirect :'profile'
-    else
-      erb :'signup_customer'
-    end
-
-  else
     @current_user = Customer.new(
       first_name: params[:first_name],
       last_name: params[:last_name],
@@ -118,14 +103,13 @@ post '/signup_customer' do
     else
       erb :'signup_customer'
     end
-  end
 end
 
 
 post '/signup_driver' do
  @current_user = current_user
-  if @current_user && @current_user.type == 'Driver'
-    @current_user.update_attributes(
+  
+  @current_user = Driver.create(
       first_name: params[:first_name],
       last_name: params[:last_name],
       email: params[:email],
@@ -134,31 +118,14 @@ post '/signup_driver' do
       license: params[:license],
       license_expiry: params[:license_expiry],
       province: params[:province]
-    )
-    if @current_user.save
-      redirect :'profile'
-    else
-      erb :'signup_driver'
-    end
-
-  else    
-    @current_user = Driver.create(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      email: params[:email],
-      password_hash: params[:password_hash],
-      phone_number: params[:phone_number],
-      license: params[:license],
-      license_expiry: params[:license_expiry],
-      province: params[:province]
-    )
-    if @current_user.save
+  )
+  if @current_user.save
       session[:id] = @current_user.id
       erb :'profile'
-    else
+  else
       erb :'signup_driver'
-    end
   end
+
 end
 
 get '/dashboard' do
@@ -176,22 +143,51 @@ get '/dashboard' do
 end
 
 get '/profile' do
-  #change this to redirect to homepage
   is_session_valid
   @current_user = current_user
-  # @current_user
   erb :'profile'
 end
 
 get '/profile/edit' do
   @current_user = current_user
-  # erb :'edit'
-  case @current_user.type
-  when 'Customer'
-    erb :signup_customer
-  when 'Driver'
-    erb :signup_driver
-  end
+  erb :'edit'
+end
+
+put '/profile' do 
+  @current_user = current_user
+  if @current_user && @current_user.type == 'Driver'
+    @current_user.update_attributes(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number],
+      license: params[:license],
+      license_expiry: params[:license_expiry],
+      province: params[:province]
+    )
+    if @current_user.save
+      erb :'profile'
+    else
+      erb :'edit'
+    end
+
+  elsif @current_user && @current_user.type == 'Customer'
+    @current_user.update_attributes(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: params[:email],
+      password_hash: params[:password_hash],
+      phone_number: params[:phone_number]
+    )
+    if @current_user.save
+      erb :'profile'
+    else
+      erb :'edit'
+    end
+end
+
+
 
 end
 
