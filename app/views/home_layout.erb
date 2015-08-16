@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <!--
     application.css is where you put your styles
@@ -21,12 +21,11 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
   <script src="/javascript/application.js"></script>
 
   <title></title>
 </head>
-<body onload="initialize()" onpageshow="initialize()">
+<body>
 <!--   <nav>
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Logo</a>
@@ -39,10 +38,10 @@
   </nav> -->
 
   <nav>
-    <div class="nav-wrapper red darken-4">
+    <div class="nav-wrapper transparent hero-nav ">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <!-- Desktop Navigation -->
+      <!-- web menu nav-bar -->
       <ul class="right hide-on-med-and-down">
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
@@ -61,7 +60,7 @@
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
-      <!-- Mobile Navigation -->
+      <!-- mobile menu nav-bar -->
       <ul class="side-nav" id="mobile-demo">
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
@@ -75,17 +74,35 @@
             <li><a href="/new_deliveries">New Deliveries</a></li>
             <li><a href="/history">History</a></li>
         <% end %>
-          <li><a href="/profile">My Account</span></a></li>
+          <li><a href="/profile">My Account</a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
     </div>
   </nav>
-  <div class="container">
-    <%= yield %>
+
+  
+  <div class="video-container">
+      
+      <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
+        <source src="/assets/shipit_lowres.mp4" type="video/mp4"> 
+      </video>
+     
+
+      <div class="overlay" class="row"> 
+        <span class="col l6 s6">Sending packages. Made easy.</span>
+        <br/>
+        <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Sign Up</button>
+      </div>
+
+
+
   </div>
 
-  <footer class="page-footer red darken-4">
+
+
+
+  <footer class="page-footer red darken-2">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">

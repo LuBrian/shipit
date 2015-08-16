@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814033555) do
+ActiveRecord::Schema.define(version: 20150815195111) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
@@ -32,16 +32,16 @@ ActiveRecord::Schema.define(version: 20150814033555) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email"
-    t.string   "password_hash"
-    t.string   "phone_number"
-    t.string   "type"
-    t.string   "license"
-    t.string   "province"
-    t.datetime "license_expiry"
-    t.string   "avatar"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "password_hash"
+    t.string "phone_number"
+    t.string "type"
+    t.string "license"
+    t.string "province"
+    t.string "avatar"
+    t.string "license_expiry"
   end
 
 end
