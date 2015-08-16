@@ -261,7 +261,17 @@ end
 post '/packages/:id' do
   is_session_valid
   @current_user = current_user 
-  @package = Package.find_by(id: params[:id]) 
+  @package = Package.find_by(id: params[:id])
+  
+  puts params[:latitude]
+  puts params[:longitude]
+  puts params.inspect
+  puts @package.inspect
+  @current_user.update_attributes(
+    latitude: params[:latitude].to_f,
+    longitude: params[:longitude].to_f
+  )
+
   if @package
     event = params[:event]
 
@@ -388,4 +398,19 @@ post '/uploads' do
   
   erb :'/profile'
 end
+
+put 'update/driver/:id/location', provides: :json do
+  begin
+
+  rescue
+    puts "Error with the put request!"
+  end
+end
+
+
+
+
+
+
+
 

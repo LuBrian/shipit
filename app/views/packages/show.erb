@@ -15,9 +15,11 @@
         Ready for Pickup 
 
         <% if @current_user.type == "Driver" %>
-          <form method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form" onsubmit="return youCanSubmitNow()" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="assign">
-            <input type="submit" value="Accept this Delivery">
+            <input id="lat" type="hidden" name="latitude">
+            <input id="lon" type="hidden" name="longitude">
+            <input id="accept" type="submit" value="Accept this Delivery">
           </form>
         <% end %> 
 
@@ -25,16 +27,20 @@
         Accepted at <%= @package.assigned_time.strftime('%c') %>
 
         <% if @current_user.type == "Driver" %>
-          <form method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form_cancel" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="cancel">
-            <input type="submit" value="Cancel this Delivery">
+            <input id="lat" type="hidden" name="latitude">
+            <input id="lon" type="hidden" name="longitude">
+            <input id="cancel" type="submit" value="Cancel this Delivery">
           </form>
         <% end %> 
 
         <% if @current_user.type == "Driver" %>
-          <form method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form_picked_up" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
           <input type="hidden" name="event" value="picked_up">
-          <input type="submit" value="Picked Up">
+          <input id="lat" type="hidden" name="latitude">
+          <input id="lon" type="hidden" name="longitude">
+          <input id="picked" type="submit" value="Picked Up">
         </form>
         <% end %>
 
@@ -42,9 +48,11 @@
         Picked Up at <%= @package.pick_up_time %>
 
         <% if @current_user.type == "Driver" %> 
-          <form method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="delivered">
-            <input type="submit" value="Delivered">
+            <input id="lat" type="hidden" name="latitude">
+            <input id="lon" type="hidden" name="longitude">
+            <input id="delivered" type="submit" value="Delivered">
           </form>
         <% end %> 
 
@@ -71,7 +79,9 @@
         Your package has not been accepted yet. You may still cancel your delivery. 
         <br/> 
         <form method="post" action="/packages/<%=@package.id %>">
-          <input type="hidden" name="_method" value="delete"> 
+          <input type="hidden" name="_method" value="delete">
+          <input id="lat" type="hidden" name="latitude">
+          <input id="lon" type="hidden" name="longitude">  
           <input type="submit" value="Delete Package">
         </form>
       <% end %>
@@ -91,6 +101,58 @@
   </div>
 </div>
 
-  
+<script type="text/javascript">
+  var form;
+  var button = document.getElementById('accept');
+  button.addEventListener('click', function (el) {
+    getLocation();
+    // console.log('accept button clicked!');
+  });  
+
+  function savePositionInDB(pos) {
+    // console.log('SAVINGS!!!');
+    // console.log(pos);
+
+    // submit!!!  Or send info to database
+    var input_lat = document.getElementById('lat');
+    var input_lon = document.getElementById('lon');
+    input_lat.value = pos.coords.latitude;
+    input_lon.value = pos.coords.longitude;
+
+    // console.log('lat: ' + pos.coords.latitude + 'and lon: ' + pos.coords.longitude);
+    console.log(form);
+    form.submit();
+    // return true;
+  }
+
+  function youCanSubmitNow(aForm) {
+    form = aForm;
+    getLocation();
+    return false;
+  }
+
+  function onPositionError(err) {
+    // console.log(err.message);
+    console.log('in position error!');
+  }
+
+  function getLocation() {
+    // console.log('getLocation called!');
+    if (navigator.geolocation) {
+      // console.log("geolocation supported!!!");
+      navigator.geolocation.getCurrentPosition(
+        savePositionInDB, 
+        onPositionError
+      );
+    } else {
+      var p = document.createElement("P");
+      var map_container = document.getElementById("map_container");
+      p.innerHTML = "Geolocation is not supported by this browser: " + status;
+      map_container.appendChild(p);
+      // x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+
+</script>
     
  

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814033555) do
+ActiveRecord::Schema.define(version: 20150816050129) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20150814033555) do
     t.string   "province"
     t.datetime "license_expiry"
     t.string   "avatar"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
 end
