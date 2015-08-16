@@ -73,6 +73,11 @@ h1.title, .input-field label {
 }
 
 /*Navigation*/
+nav {
+  position: absolute;
+  box-shadow: none;
+  z-index: 1000;
+}
 
 nav .brand-logo {
   margin: 5px 0 0 0;
