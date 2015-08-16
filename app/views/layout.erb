@@ -68,8 +68,9 @@
             <!-- <li><a href="/history">History</a></li> -->
           <% end %>
 
-          <li><a href="/profile" class="dropdown-button" href="#!" data-activates="dropdown">My Account<i class="material-icons right">arrow_drop_down</i></a></li>
-          <!-- <li><a href="/logout">Logout</a></li> -->
+          <li><a href="/profile" class="dropdown-button" data-activates="dropdown">Hi, <%= @current_user.first_name %><i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a href="/logout">Logout</a></li>
+
         <% end %>
       </ul>
       <!-- Mobile Navigation -->

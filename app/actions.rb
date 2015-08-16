@@ -326,6 +326,9 @@ put '/packages/:id' do
         height: params[:height],
         notes: params[:notes]
         )
+        if !@package.driver_id.nil?
+          @driver = Driver.find(@package.driver_id)
+        end 
         erb :'/packages/show'
       else 
         erb :'/packages/edit'
@@ -385,6 +388,6 @@ post '/uploads' do
   end
   @current_user.update_attributes(avatar: @filename)
   
-  erb :'/profile'
+  erb :'/profile/index'
 end
 

@@ -1,6 +1,4 @@
 
-
-
 /*Elements*/
 
 .btn {
@@ -16,6 +14,10 @@
 
 .btn:focus {
   background-color: #64b5f6 !important;
+}
+
+.btn i {
+  font-size: 1.0rem;
 }
 
 .fileUpload {
@@ -71,6 +73,11 @@ h1.title, .input-field label {
 }
 
 /*Navigation*/
+nav {
+  position: absolute;
+  box-shadow: none;
+  z-index: 1000;
+}
 
 nav .brand-logo {
   margin: 5px 0 0 0;
@@ -90,12 +97,12 @@ nav .brand-logo {
   background-color: #ffebee;
 }
 
-/*Hero*/ 
+/*Hero*/
 
 .overlay {
-    position: absolute; 
-    top: 35%; 
-    color: #FFF; 
+    position: absolute;
+    top: 35%;
+    color: #FFF;
     text-align: center;
     font-size: 60px;
     /*background-color: rgba(1, 1, 1, 0.3);*/
@@ -112,7 +119,11 @@ nav .brand-logo {
 .btn.hero-signup {
   width: 136;
   height: 38px;
-  background-color: rgba(221, 221, 221, 0.3) !important;
+  background-color: #b71c1c !important;
+}
+
+.btn.hero-signup a {
+  color: #fff;
 }
 
 .hero_video {
@@ -123,7 +134,8 @@ nav .brand-logo {
 .video-container {
   position: relative;
   width: 100% !important;
-}  
+  padding-top: 0px;
+}
 
 /*Assets*/
 
@@ -146,7 +158,7 @@ nav .brand-logo {
     }*/
   }
 
-@media only screen 
+@media only screen
   and (min-width: 601px)
   and (max-width: 992px) {
     .overlay {
@@ -157,7 +169,7 @@ nav .brand-logo {
     }
   }
 
-@media only screen 
+@media only screen
   and (max-width: 600px) {
     .overlay {
       font-size: 40px;
@@ -174,4 +186,3 @@ nav .brand-logo {
         font-size:12px;
       }
     }
-
