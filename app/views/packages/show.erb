@@ -15,7 +15,7 @@
         Ready for Pickup 
 
         <% if @current_user.type == "Driver" %>
-          <form id="state_form" onsubmit="return youCanSubmitNow()" method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="assign">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
@@ -110,8 +110,8 @@
   });  
 
   function savePositionInDB(pos) {
-    // console.log('SAVINGS!!!');
-    // console.log(pos);
+    console.log('in savePositionInDB');
+    console.log(pos);
 
     // submit!!!  Or send info to database
     var input_lat = document.getElementById('lat');
@@ -126,6 +126,7 @@
   }
 
   function youCanSubmitNow(aForm) {
+    console.log(aForm);
     form = aForm;
     getLocation();
     return false;
@@ -137,8 +138,10 @@
   }
 
   function getLocation() {
+    console.log('in getLoction');
     // console.log('getLocation called!');
     if (navigator.geolocation) {
+      console.log('in geolocation');
       // console.log("geolocation supported!!!");
       navigator.geolocation.getCurrentPosition(
         savePositionInDB, 
