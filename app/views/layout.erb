@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <!--
     application.css is where you put your styles
@@ -38,10 +38,10 @@
   </nav> -->
 
   <nav>
-    <div class="nav-wrapper red darken-2">
+    <div class="nav-wrapper red darken-4">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <!-- web menu nav-bar -->
+      <!-- Desktop Navigation -->
       <ul class="right hide-on-med-and-down">
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
@@ -60,7 +60,7 @@
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
-      <!-- mobile menu nav-bar -->
+      <!-- Mobile Navigation -->
       <ul class="side-nav" id="mobile-demo">
         <% unless session[:id] %>
           <li><a href="/login">Login</a></li>
@@ -74,7 +74,7 @@
             <li><a href="/new_deliveries">New Deliveries</a></li>
             <li><a href="/history">History</a></li>
         <% end %>
-          <li><a href="/profile">My Account</a></li>
+          <li><a href="/profile">My Account</span></a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
@@ -84,7 +84,7 @@
     <%= yield %>
   </div>
 
-  <footer class="page-footer red darken-2">
+  <footer class="page-footer red darken-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
