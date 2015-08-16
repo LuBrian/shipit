@@ -48,7 +48,7 @@ end
 
 get '/' do
   @current_user = current_user
-  erb :index
+  erb :index, :layout => :home_layout
 end
 
 get '/login' do
@@ -176,10 +176,8 @@ get '/dashboard' do
 end
 
 get '/profile' do
-  #change this to redirect to homepage
   is_session_valid
   @current_user = current_user
-  # @current_user
   erb :'profile'
 end
 
