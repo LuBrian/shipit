@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Distance Matrix service</title>
+    <style>
+      #map {
+        height: 500px; 
+        width: 500px;
+      }
+    </style>
+
+    <style>
+      #outputDiv {
+        font-family: 'Roboto','sans-serif';
+        color: blue;
+      }
+      #outputOri {
+        font-family: 'Roboto','sans-serif';
+        color: blue;
+      }
+      #outputDes {
+        font-family: 'Roboto','sans-serif';
+        color: blue;
+      }
+    </style>
+  </head>
+
+
+  <body>
+    <input id="start" type="textbox" value="9911 Ash street, Richmond" style="display: none" onchange="calcRoute();">
+    <input id="end" type="textbox" value="T6H 0B1" style="display: none" onchange="calcRoute();">
+    <input id="latitude" type="textbox" value="-25.363" style="display: none" onchange="calcRoute();">
+    <input id="longitude" type="textbox" value="131.044" style="display: none" onchange="calcRoute();">
+    <ul>
+      <li><div id="outputOri"></div></li>
+      <li><div id="outputDes"></div></li>
+      <li><div id="outputDiv"></div></li>
+    </ul>
+    <div id="map"></div>
+
+
+<script>
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var bounds = new google.maps.LatLngBounds;
+
+  var origin = document.getElementById('start').value
+  var destination = document.getElementById('end').value
+  var latitude = parseFloat(document.getElementById('latitude').value)
+  var longitude = parseFloat(document.getElementById('longitude').value)
+
+
+  
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+
+  });
+  var geocoder = new google.maps.Geocoder;
+
+  // calculate distance and time between origin and destination
+  var service = new google.maps.DistanceMatrixService;
+  service.getDistanceMatrix({
+    origins: [origin],
+    destinations: [destination],
+    travelMode: google.maps.TravelMode.DRIVING,
+    unitSystem: google.maps.UnitSystem.METRIC,
+    avoidHighways: false,
+    avoidTolls: false
+  }, function(response, status) {
+    if (status !== google.maps.DistanceMatrixStatus.OK) {
+      alert('Error was: ' + status);
+    } else {
+      var originList = response.originAddresses;
+      var destinationList = response.destinationAddresses;
+      var outputOri = document.getElementById('outputOri');
+      var outputDes = document.getElementById('outputDes');
+      var outputDiv = document.getElementById('outputDiv');
+      outputOri.innerHTML = '';
+      outputDes.innerHTML = '';
+      outputDiv.innerHTML = '';
+
+
+      for (var i = 0; i < originList.length; i++) {
+        var results = response.rows[i].elements;
+        geocoder.geocode({'address': originList[i]});
+        for (var j = 0; j < results.length; j++) {
+          geocoder.geocode({'address': destinationList[j]});
+          outputOri.innerHTML = 'From A: \"' + originList[i] + '\";'
+          outputDes.innerHTML = 'To B: \"' + destinationList[j] + '\";'
+          outputDiv.innerHTML = 'Distance: ' + results[j].distance.text + ' in ' +
+              results[j].duration.text + '<br>';
+        }
+      }
+    }
+  });
+  
+  // show the package's origin and destination locations
+  directionsDisplay.setMap(map);
+
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+
+  // show the driver's current location
+  // Try HTML5 geolocation.
+  var infowindow = new google.maps.InfoWindow({
+        content: "Driver's location"
+  });
+  var pos = {
+        lat: latitude,
+        lng: longitude
+  };
+
+  var marker = new google.maps.Marker({
+        position: pos,
+        map: map
+  });
+
+  marker.addListener('click', function() {
+        infowindow.open(map, marker);
+  });
+
+}
+// display the route from origin to destination
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  directionsService.route({
+    origin: document.getElementById('start').value,
+    destination: document.getElementById('end').value,
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+
+</script>
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
+        async defer></script>
+  </body>
+</html>
