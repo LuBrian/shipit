@@ -32,18 +32,18 @@ ActiveRecord::Schema.define(version: 20150816050129) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email"
-    t.string   "password_hash"
-    t.string   "phone_number"
-    t.string   "type"
-    t.string   "license"
-    t.string   "province"
-    t.datetime "license_expiry"
-    t.string   "avatar"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "password_hash"
+    t.string "phone_number"
+    t.string "type"
+    t.string "license"
+    t.string "province"
+    t.string "avatar"
+    t.string "license_expiry"
+    t.float  "latitude"
+    t.float  "longitude"
   end
 
 end
