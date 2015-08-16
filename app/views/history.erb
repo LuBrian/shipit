@@ -1,14 +1,36 @@
 <h1> Past Deliveries </h1>
 
-<% @past_driver_packages.each do |package| %>
-  <a href="/packages/<%= package.id %>">  
-    <div>
-      <p>
-        <% if package.delivery_time %> 
-          Delivered at <%= package.delivery_time %>
-        <% end %>
-        <%= package.title %><%= package.origin %><%= package.destination %>
-      </p>
-    </div>
-  </a>
-<% end %>
+<table class="striped">
+    <thead>
+      <tr>
+        <th data-field="id">Status</th>
+        <th data-field="name">Title</th>
+        <th data-field="price">Origin</th>
+        <th data-field="price">Destination</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @past_driver_packages.each do |package| %>
+      <tr>
+        <td>
+          <% if package.delivery_time %> 
+            Delivered at <%= package.delivery_time.strftime('%c').in_time_zone("Pacific Time (US & Canada)")%>
+          <% end %>
+        </td>
+
+        <td>
+          <a href="/packages/<%= package.id %>"><%= package.title %></a>
+        </td>
+
+        <td>
+          <%= package.origin %>
+        </td>
+        
+        <td>
+          <%= package.destination %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>

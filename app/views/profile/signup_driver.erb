@@ -33,21 +33,21 @@
   <div class="row">
   	<div class="input-field col s6 offset-s3">
 	    <label for="license">License ID:</label>
-	    <input type="text" id="" class="validate" name="license" value="<%= current_user.license if current_user && current_user.type == 'Driver' %>"><br>
+	    <input type="text" id="" class="validate" name="license" value="<%= @current_user.license%>"><br>
 		</div>
   </div>
 
   <div class="row">
 	  <div class="input-field col s6 offset-s3">
 	    <label for="license_expiry">Expiry:</label>
-	    <input type="text" id="" name="license_expiry" class="validate" value="<%= current_user.license_expiry if current_user && current_user.type == 'Driver' %>">
+	    <input type="text" id="" name="license_expiry" class="validate" value="<%= @current_user.license_expiry %>">
 		</div>
 	</div>
 
   <div class="row">
 	  <div class="input-field col s6 offset-s3">
 	    <label for="province">Province:</label>
-	    <input type="text" id="" name="province" class="validate" value="<%= current_user.province if current_user && current_user.type == 'Driver' %>">
+	    <input type="text" id="" name="province" class="validate" value="<%= @current_user.province %>">
 	  </div>
 	</div>
 

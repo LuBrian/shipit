@@ -39,7 +39,7 @@
         <% end %>
 
       <% elsif  @package.pick_up_time && @package.delivery_time.nil? %>
-        Picked Up at <%= @package.pick_up_time %>
+        Picked Up at <%= @package.pick_up_time.strftime('%c') %>
 
         <% if @current_user.type == "Driver" %> 
           <form method="post" action="/packages/<%=@package.id %>">
@@ -49,7 +49,7 @@
         <% end %> 
 
       <% elsif  @package.delivery_time %> 
-        Delivered at <%= @package.delivery_time %>
+        Delivered at <%= @package.delivery_time.strftime('%c') %>
 
       <% end %> 
 
