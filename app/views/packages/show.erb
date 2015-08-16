@@ -70,6 +70,14 @@
       <li> Dimensions (L x W x H): <%= @package.length %> x <%= @package.width %> x <%= @package.height %> </li>
       <li> Notes: <%= @package.notes %> </li>
     </ul>
+
+    <div>
+    <% if @current_user.type == "Driver" %>
+    <h1> Map </h1>
+      <%= erb :'/packages/Driver_map' %>
+    <% end %>
+    </div>
+
     
     <% if @current_user.type == "Customer" %>
 
@@ -91,11 +99,27 @@
 
         Driver ID: <%= @package.driver_id%> 
         <% if @driver %> 
-          <%= @driver.first_name %>
+          <p>
+          Driver Name: <%= @driver.first_name %> <%= @driver.last_name %>
+          </p>
+          <p>
+          <div class="row">
+            <% if !@driver.avatar.nil? %>
+              <div class="col s12 m12 l12 center">
+                <img id="avatar" src="/uploads/<%=@driver.avatar%>"/>
+              </div>
+            <% end %>
+          </div>
+          </p>
+          <div>
+          <h1> Map </h1>
+          <!-- should change this to Customer's map -->
+          <%= erb :'/packages/Driver_map' %>
+          </div>
+
         <% end %> 
 
       </div>
-
     <% end %>
   
   </div>
