@@ -28,8 +28,19 @@
 <body>
 
 <div class="video-container">
-  <nav class="transparent">
-    <div class="nav-wrapper transparent hero-nav ">
+
+  <ul id="dropdown" class="dropdown-content">
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="/profile/edit">Edit Profile</a></li>
+    <li><a href="/history">History</a></li>
+      <% if @current_user && @current_user.type == "Driver" %>
+        <li class="divider"></li>
+      <% end %> 
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+
+  <nav style="position: absolute; box-shadow: none; z-index: 1000;" class="transparent">
+    <div class="nav-wrapper">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <!-- web menu nav-bar -->
@@ -47,8 +58,7 @@
             <li><a href="/history">History</a></li>
           <% end %>
 
-          <li><a href="/profile">My Account</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li><a href="/profile" class="dropdown-button" data-activates="dropdown">Hi, <%= @current_user.first_name %><i class="material-icons right">arrow_drop_down</i></a></li>
         <% end %>
       </ul>
       <!-- mobile menu nav-bar -->
@@ -71,32 +81,51 @@
       </ul>
     </div>
   </nav>
-    <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
-      <source src="/assets/shipit_lowres.mp4" type="video/mp4">
-    </video>
 
 
-    <div class="overlay" class="row">
-      <span class="col l6 s6">Sending packages. Made easy.</span>
-      <br/>
-      <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Sign Up</button>
-    </div>
+  
+  <div class="video-container">
+      
+      <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
+        <source src="/assets/shipit_lowres.mp4" type="video/mp4"> 
+      </video>
+     
+
+      <div class="overlay" class="row"> 
+        <% if @current_user && @current_user.type == "Driver" %> 
+          <span class="col l6 s6">Delivering packages. Made easy.</span>
+        <% else %> 
+          <span class="col l6 s6">Sending packages. Made easy.</span>
+        <% end %> 
+        
+        <br/>
+        <% if @curernt_user && @current_user.type == "Customer" %>
+          <a href="/signup_customer"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Shipping</button></a>
+        <% elsif @curernt_user && @current_user.type == "Driver" %>
+          <a href="/new_deliveries"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Delivering</button></a>
+        <% else %>
+          <a href="/packages/new"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Shipping</button></a>
+        <% end %>
+      </div>
+
+  </div>
+
 </div>
 
   <footer class="page-footer red darken-2">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Footer Content</h5>
-          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+          <h5 class="white-text">Ship It</h5>
+          <p class="grey-text text-lighten-4">This was a project developed by Andrea Cabral, Brian Lu, Stephanie Chuo-Lee, Sumit Sekhri of the Lighthouse Labs Web Development July Cohort. Based on Samuel Graham-Douglas' "Uber for Shipping" concept.</p>
         </div>
         <div class="col l4 offset-l2 s12">
           <h5 class="white-text">More</h5>
           <ul>
-            <li><a class="grey-text text-lighten-3" href="#!">Home</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Sign Up</a></li>
+            <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
+            <li><a class="grey-text text-lighten-3" href="/signup_customer">Sign Up</a></li>
             <li><a class="grey-text text-lighten-3" href="#!">Contact Us</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Lighthouse Labs</a></li>
+            <li><a class="grey-text text-lighten-3" href="http://lighthouselabs.ca">Lighthouse Labs</a></li>
           </ul>
         </div>
       </div>
