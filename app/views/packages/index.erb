@@ -1,52 +1,55 @@
 <% if @current_user.type == 'Customer'%>
     <h1> Your Packages </h1>
 
-    <table class="striped">
-      <thead>
-        <tr>
-          <th data-field="id">Status</th>
-          <th data-field="name">Title</th>
-          <th data-field="price">Origin</th>
-          <th data-field="price">Destination</th>
-        </tr>
-      </thead>
+    <% if @customer_packages %> 
+      <table class="striped">
+        <thead>
+          <tr>
+            <th data-field="id">Status</th>
+            <th data-field="name">Title</th>
+            <th data-field="price">Origin</th>
+            <th data-field="price">Destination</th>
+          </tr>
+        </thead>
 
 
-      <tbody>
-        <% @customer_packages.each do |package| %>
-        <tr>
-          <td>
-            <% if package.driver_id.nil? %>
-            Ready for Pickup
-            <% elsif package.driver_id && package.pick_up_time.nil? %>
-            Accepted
-            <% elsif package.pick_up_time && package.delivery_time.nil? %>
-            Picked Up
-            <% else package.delivery_time %>
-              Delivered
-              <!-- <%= package.delivery_time %> -->
-            <% end %>
-          </td>
+        <tbody>
+          <% @customer_packages.each do |package| %>
+          <tr>
+            <td>
+              <% if package.driver_id.nil? %>
+              Ready for Pickup
+              <% elsif package.driver_id && package.pick_up_time.nil? %>
+              Accepted
+              <% elsif package.pick_up_time && package.delivery_time.nil? %>
+              Picked Up
+              <% else package.delivery_time %>
+                Delivered
+                <!-- <%= package.delivery_time %> -->
+              <% end %>
+            </td>
 
-          <td>
-            <a href="/packages/<%= package.id %>">
-              <%= package.title %>
-            </a>
-          </td>
+            <td>
+              <a href="/packages/<%= package.id %>">
+                <%= package.title %>
+              </a>
+            </td>
 
-          <td>
-            <%= package.origin %>
-          </td>
+            <td>
+              <%= package.origin %>
+            </td>
 
-          <td>
-            <%= package.destination %>
-          </td>
+            <td>
+              <%= package.destination %>
+            </td>
 
-        </tr>
+          </tr>
 
-        <% end %>
-      </tbody>
-      </table>
+          <% end %>
+        </tbody>
+        </table>
+
+      <% end %>
 
 
   <!-- <% @customer_packages.each do |package| %>
