@@ -62,6 +62,14 @@
       <li> Dimensions (L x W x H): <%= @package.length %> x <%= @package.width %> x <%= @package.height %> </li>
       <li> Notes: <%= @package.notes %> </li>
     </ul>
+
+    <!-- For drivers only! Add map to show the origin and destination of the package, also the current location of the driver -->
+    <div>
+    <% if @current_user.type == "Driver" %>
+      <%= erb :'/packages/O-D_map' %>
+    <% end %>
+    </div>
+
     
     <% if @current_user.type == "Customer" %>
 
