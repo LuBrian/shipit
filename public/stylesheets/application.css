@@ -59,19 +59,24 @@ nav .brand-logo {
 .btn.hero-signup {
   width: 136;
   height: 38px;
+  background-color: rgba(221, 221, 221, 0.3) !important;
+}
+
+.nav-wrapper.hero-nav {
+
 }
 
 .hero_video {
-    z-index: 1;
-    width: 100% !important;
-
+  z-index: 1;
+  width: 100% !important;
 }
 
 .video-container {
-    position: relative;
-    width: 100% !important;
-
+  position: relative;
+  width: 100% !important;
 }  
+
+
 /*Media Queries*/
 
 @media only screen
