@@ -217,7 +217,8 @@ end
 
 post '/packages/new' do 
   is_session_valid
-  @current_user = current_user 
+  @current_user = current_user
+  puts params[:distance] 
   if @current_user.is_a?(Customer)
     @package = Package.create(
       title: params[:title],
