@@ -1,3 +1,4 @@
+
 /*Elements*/
 
 .btn {
@@ -13,6 +14,10 @@
 
 .btn:focus {
   background-color: #64b5f6 !important;
+}
+
+.btn i {
+  font-size: 1.0rem;
 }
 
 .fileUpload {
@@ -36,10 +41,18 @@
     filter: alpha(opacity=0);
 }
 
+footer.page-footer {
+  position:relative;
+}
+
 /*Table Elements*/
 
 tr {
   height: 60px;
+}
+
+td {
+  padding: 2px 5px;
 }
 
 /*Form Customization*/
@@ -55,10 +68,68 @@ h1.title, .input-field label {
   color: #d32f2f;
 }
 
-/*Logo*/
+.side-nav li a {
+  color: #B71C1C;
+}
+
+/*Navigation*/
 
 nav .brand-logo {
   margin: 5px 0 0 0;
+}
+
+/* Google map */
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+.nav-wrapper.hero-nav {
+
+}
+
+.side-nav li:hover {
+  background-color: #ffebee;
+}
+
+/*Hero*/
+
+.overlay {
+    position: absolute;
+    top: 35%;
+    color: #FFF;
+    text-align: center;
+    font-size: 60px;
+    /*background-color: rgba(1, 1, 1, 0.3);*/
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    /*z-index: 2147483647;*/
+}
+
+.overlay .hero-signup {
+  font-size: 20px;
+}
+
+.btn.hero-signup {
+  width: 136;
+  height: 38px;
+  background-color: #b71c1c !important;
+}
+
+.btn.hero-signup a {
+  color: #fff;
+}
+
+.hero_video {
+  z-index: 1;
+  width: 100% !important;
+}
+
+.video-container {
+  position: relative;
+  width: 100% !important;
+  padding-top: 0px;
 }
 
 /*Assets*/
@@ -66,7 +137,7 @@ nav .brand-logo {
 #avatar {
   max-width: 250px;
   margin: 40px 0 0 0;
-  border: 8px solid #64b5f6;
+  border: 8px solid #b71c1c;
   border-radius: 150px;
 }
 
@@ -77,4 +148,36 @@ nav .brand-logo {
     .container {
       width: 85% !important;
     }
+    /*.overlay {
+      font-size: 100px;
+    }*/
   }
+
+@media only screen
+  and (min-width: 601px)
+  and (max-width: 992px) {
+    .overlay {
+      font-size: 45px;
+    }
+    .overlay .hero-signup {
+      font-size: 15px;
+    }
+  }
+
+@media only screen
+  and (max-width: 600px) {
+    .overlay {
+      font-size: 40px;
+      top: 20%;
+    }
+    .overlay .hero-signup {
+      font-size: 18px;
+    }
+  }
+
+  @media only screen
+    and (max-width: 600px) {
+      td {
+        font-size:12px;
+      }
+    }

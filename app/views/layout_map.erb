@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 500px; width: 500px; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript">
+      var geocoder;
+      var map;
+      // translate to json format the packages array
+      window.packs_json = <%= @packages_json %>;
+
+      // init the map
+      function initialize() {
+        //create a new instance of geocoder
+        geocoder = new google.maps.Geocoder();
+        // create a lat and long object
+        var latlng = new google.maps.LatLng(-34.397, 150.644);
+        // set the map object options (both are required)
+        var mapOptions = {
+          zoom: 2,
+          center: latlng
+        }
+        // create a new map object
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      }
+
+      //
+      function codeAddress() {
+        // loop through each package in the array (in JSON format) and calculate for each the lat and long, assign a marker andadd the marker to the map
+        window.packs_json.forEach(function (a_pack_hash) {
+          
+          // give a an address as a string 
+          geocoder.geocode( { 'address': a_pack_hash['origin']}, function(results, status) {
+            
+            // check the status of the geocoding. If true show location on the map
+            if (status == google.maps.GeocoderStatus.OK) {
+              // set center of map view 
+              map.setCenter(results[0].geometry.location);
+              // create a marker to go on the map at a given position
+              var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location
+              });
+              // if geocoding did not work, show an alert
+            } else {
+              alert("Geocode was not successful for the following reason: " + status);
+            }
+          });
+        });
+      }
+    
+    </script>
+  </head>
+<body onload="initialize()" onpageshow="codeAddress()">
+  <div id="map" style="width: 320px; height: 480px;"></div>
+</body>
+</html>

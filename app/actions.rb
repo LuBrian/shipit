@@ -48,7 +48,7 @@ end
 
 get '/' do
   @current_user = current_user
-  erb :index
+  erb :index, :layout => :home_layout
 end
 
 get '/login' do
@@ -261,7 +261,17 @@ end
 post '/packages/:id' do
   is_session_valid
   @current_user = current_user 
-  @package = Package.find_by(id: params[:id]) 
+  @package = Package.find_by(id: params[:id])
+  
+  puts params[:latitude]
+  puts params[:longitude]
+  puts params.inspect
+  puts @package.inspect
+  @current_user.update_attributes(
+    latitude: params[:latitude].to_f,
+    longitude: params[:longitude].to_f
+  )
+
   if @package
     event = params[:event]
 
@@ -355,6 +365,12 @@ delete '/packages/:id' do
 end 
 
 
+get '/map' do
+  @packages_json = Package.all.to_json # address (string) of the destination
+  # @origins = []
+  # Package.all.each { |package| @origins << package.origin }
+  erb :map, layout: :layout_map
+end
 
 get '/new_deliveries' do 
   is_session_valid
@@ -365,7 +381,6 @@ get '/new_deliveries' do
   erb :'/packages/new_deliveries'
 end 
 
-
 get '/history' do 
   is_session_valid
   @current_user = current_user
@@ -374,12 +389,14 @@ get '/history' do
   erb :'/history'
 end 
 
-
 post '/uploads' do
   @current_user = current_user 
+  if !@current_user.avatar.nil?
+    File.delete("./public/uploads/#{@current_user.avatar}") if File.exist?("./public/uploads/#{@current_user.avatar}")
+  end 
+  
   @filename = params[:file_info][:filename]
   file = params[:file_info][:tempfile]
-
   File.open("./public/uploads/#{@filename}", 'wb') do |f|
     f.write(file.read)
   end
@@ -387,4 +404,19 @@ post '/uploads' do
   
   erb :'/profile/index'
 end
+
+put 'update/driver/:id/location', provides: :json do
+  begin
+
+  rescue
+    puts "Error with the put request!"
+  end
+end
+
+
+
+
+
+
+
 
