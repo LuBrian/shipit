@@ -35,7 +35,7 @@
     <li><a href="/history">History</a></li>
       <% if @current_user && @current_user.type == "Driver" %>
         <li class="divider"></li>
-      <% end %> 
+      <% end %>
     <li><a href="/logout">Logout</a></li>
   </ul>
 
@@ -83,21 +83,21 @@
   </nav>
 
 
-  
-  <div class="video-container">
-      
-      <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
-        <source src="/assets/shipit_lowres.mp4" type="video/mp4"> 
-      </video>
-     
 
-      <div class="overlay" class="row"> 
-        <% if @current_user && @current_user.type == "Driver" %> 
+  <div class="video-container">
+
+      <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
+        <source src="/assets/shipit_lowres.mp4" type="video/mp4">
+      </video>
+
+
+      <div class="overlay" class="row">
+        <% if @current_user && @current_user.type == "Driver" %>
           <span class="col l6 s6">Delivering packages. Made easy.</span>
-        <% else %> 
+        <% else %>
           <span class="col l6 s6">Sending packages. Made easy.</span>
-        <% end %> 
-        
+        <% end %>
+
         <br/>
         <% if @curernt_user && @current_user.type == "Customer" %>
           <a href="/signup_customer"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Shipping</button></a>
@@ -112,11 +112,11 @@
 
 </div>
 
-  <footer class="page-footer red darken-2">
+  <footer style="margin-top: 0px;" class="page-footer red darken-2">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Ship It</h5>
+          <h5 class="white-text">About Us</h5>
           <p class="grey-text text-lighten-4">This was a project developed by Andrea Cabral, Brian Lu, Stephanie Chuo-Lee, Sumit Sekhri of the Lighthouse Labs Web Development July Cohort. Based on Samuel Graham-Douglas' "Uber for Shipping" concept.</p>
         </div>
         <div class="col l4 offset-l2 s12">
@@ -133,7 +133,6 @@
     <div class="footer-copyright">
       <div class="container">
       © 2015 Ship It Co.
-      <a class="grey-text text-lighten-4 right" href="#!">About Us</a>
       </div>
     </div>
   </footer>
