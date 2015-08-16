@@ -12,11 +12,11 @@
 
 
 <div class="row">
-	<div class="col s6 offset-s3">
+	<div class="col l6 offset-l3 s10 offset-s1">
 		<% if current_user %>
 			<h1>Edit Here</h1>
 		<% else %>
-			<h1 class="center">Start Shipping Soon</h1>
+			<h2 class="center">Start Delivering Soon</h2>
 		<% end %>
 		<h1>Driver Account</h1>
 	</div>
@@ -25,29 +25,29 @@
 <form action="/signup_driver" method="POST">
 	<%= erb :'/profile/signup_form' %>
 <div class="row">
-    <div class="col s6 offset-s3">
+    <div class="col l6 offset-l3 s10 offset-s1">
       <h1>License</h1>
     </div>
 </div>
 
   <div class="row">
-  	<div class="input-field col s6 offset-s3">
+  	<div class="input-field col l6 offset-l3 s10 offset-s1">
 	    <label for="license">License ID:</label>
-	    <input type="text" id="" class="validate" name="license" value="<%= @current_user.license%>"><br>
+	    <input type="text" id="" class="validate" name="license" value="<%= @current_user.license if @current_user %>"><br>
 		</div>
   </div>
 
   <div class="row">
-	  <div class="input-field col s6 offset-s3">
+	  <div class="input-field col l6 offset-l3 s10 offset-s1">
 	    <label for="license_expiry">Expiry:</label>
-	    <input type="text" id="" name="license_expiry" class="validate" value="<%= @current_user.license_expiry %>">
+	    <input type="text" id="" name="license_expiry" class="validate" value="<%= @current_user.license_expiry if @current_user %>">
 		</div>
 	</div>
 
   <div class="row">
-	  <div class="input-field col s6 offset-s3">
+	  <div class="input-field col l6 offset-l3 s10 offset-s1">
 	    <label for="province">Province:</label>
-	    <input type="text" id="" name="province" class="validate" value="<%= @current_user.province %>">
+	    <input type="text" id="" name="province" class="validate" value="<%= @current_user.province if @current_user %>">
 	  </div>
 	</div>
 
