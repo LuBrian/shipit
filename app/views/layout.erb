@@ -38,6 +38,17 @@
     </div>
   </nav> -->
 
+
+<ul id="dropdown" class="dropdown-content">
+  <li><a href="/profile/edit">Edit Profile</a></li>
+  <li><a href="/history">History</a></li>
+  <% if @current_user && @current_user.type == "Driver" %>
+    <li class="divider"></li>
+  <% end %> 
+  <li><a href="/logout">Logout</a></li>
+</ul>
+
+
   <nav>
     <div class="nav-wrapper red darken-4">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
@@ -54,11 +65,11 @@
           <% elsif @current_user && @current_user.type == "Driver" %>
             <li><a href="/dashboard">My Deliveries</a></li>
             <li><a href="/new_deliveries">New Deliveries</a></li>
-            <li><a href="/history">History</a></li>
+            <!-- <li><a href="/history">History</a></li> -->
           <% end %>
 
-          <li><a href="/profile">My Account</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li><a href="/profile" class="dropdown-button" href="#!" data-activates="dropdown">My Account<i class="material-icons right">arrow_drop_down</i></a></li>
+          <!-- <li><a href="/logout">Logout</a></li> -->
         <% end %>
       </ul>
       <!-- Mobile Navigation -->

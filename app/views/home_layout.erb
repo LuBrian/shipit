@@ -92,7 +92,11 @@
       <div class="overlay" class="row"> 
         <span class="col l6 s6">Sending packages. Made easy.</span>
         <br/>
-        <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Sign Up</button>
+        <% if @current_user %> 
+          <a href="/packages/new"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Shipping</button></a>
+        <% else %>
+          <a href="/signup_customer"> <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Start Shipping</button></a>
+        <% end %>
       </div>
 
 
