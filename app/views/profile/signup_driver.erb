@@ -1,11 +1,11 @@
 <div class="row">
 	<div class="input-field col s6 offset-s3">
-		<ul class="error"> 
-		  <% if @current_user && @current_user.errors.any? %> 
+		<ul class="error">
+		  <% if @current_user && @current_user.errors.any? %>
 		    <% @current_user.errors.full_messages.each do |message| %>
 		      <li> <%= message %> </li>
-		      <% end %> 
-		  <% end %> 
+		      <% end %>
+		  <% end %>
 		</ul>
 	</div>
 </div>
@@ -25,7 +25,7 @@
 <form action="/signup_driver" method="POST">
 	<%= erb :'/profile/signup_form' %>
 <div class="row">
-    <div class="col s6 offset-s3 red darken-2">
+    <div class="col s6 offset-s3">
       <h1>License</h1>
     </div>
 </div>
@@ -80,4 +80,3 @@
 		<span>Need to ship?<a href="/signup_customer"> Become a customer</a></span>
 	</div>
 </div>
-

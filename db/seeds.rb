@@ -20,7 +20,7 @@ end
 @num_customers = Customer.all.count
 @num_drivers = Driver.all.count
 
-20.times do
+5.times do
 	created_at = Faker::Date.between( 40.days.ago, 20.days.ago )
 	updated_at = Faker::Date.between( (Date.today - created_at).days.ago, 12.days.ago )
 	assigned_time = Faker::Date.between( (Date.today - created_at).days.ago, 12.days.ago )
