@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="/stylesheets/normalize.css">
   <!--
     application.css is where you put your styles
@@ -26,19 +26,8 @@
   <title></title>
 </head>
 <body>
-<!--   <nav>
+  <nav class="transparent" style="position: absolute !important; z-index: 1000; background-color: none !important; box-shadow: none;">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Home</a></li>
-        <li><a href="badges.html">Sign Up</a></li>
-      </ul>
-    </div>
-  </nav> -->
-
-  <nav>
-    <div class="nav-wrapper transparent hero-nav ">
       <a href="/" class="brand-logo"><img src="/assets/logo_small.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <!-- web menu nav-bar -->
@@ -81,28 +70,22 @@
     </div>
   </nav>
 
-  
   <div class="video-container">
-      
-      <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
-        <source src="/assets/shipit_lowres.mp4" type="video/mp4"> 
-      </video>
-     
+    <video class="hero_video" class="video-container no-controls" preload="auto" loop="loop" autoplay>
+      <source src="/assets/shipit_lowres.mp4" type="video/mp4">
+    </video>
 
-      <div class="overlay" class="row"> 
-        <span class="col l6 s6">Sending packages. Made easy.</span>
-        <br/>
-        <button class="btn waves-effect waves-light hero-signup" type="submit" name="action">Sign Up</button>
-      </div>
-
-
-
+    <div class="overlay" class="row">
+      <span class="col l6 s6">Sending packages. Made easy.</span>
+      <br/>
+      <button class="btn waves-effect waves-light hero-signup" type="submit" name="action" ><a href="/signup_customer">Sign Up</a></button>
+    </div>
   </div>
 
 
 
 
-  <footer class="page-footer red darken-2">
+  <footer class="page-footer red darken-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
