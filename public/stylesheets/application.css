@@ -16,6 +16,10 @@
   background-color: #64b5f6 !important;
 }
 
+.btn i {
+  font-size: 1.0rem;
+}
+
 .fileUpload {
     position: relative;
     overflow: hidden;
@@ -104,7 +108,11 @@ nav .brand-logo {
 .btn.hero-signup {
   width: 136;
   height: 38px;
-  background-color: rgba(221, 221, 221, 0.3) !important;
+  background-color: #b71c1c !important;
+}
+
+.btn.hero-signup a {
+  color: #fff;
 }
 
 .hero_video {

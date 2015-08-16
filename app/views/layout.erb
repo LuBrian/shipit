@@ -56,7 +56,7 @@
             <li><a href="/history">History</a></li>
           <% end %>
 
-          <li><a href="/profile">My Account</a></li>
+          <li><a href="/profile">Hi, <%= @current_user.first_name %></a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
