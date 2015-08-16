@@ -360,7 +360,7 @@ get '/new_deliveries' do
   is_session_valid
   @current_user = current_user
   @all_packages = Package.all
-  @new_packages = @all_packages.where(driver_id: nil ).order(:created_at)
+  @new_packages = @all_packages.where(driver_id: nil).order(created_at: :desc)
   @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
   erb :'/packages/new_deliveries'
 end 
