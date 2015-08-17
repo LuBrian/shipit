@@ -19,7 +19,7 @@
             <input type="hidden" name="event" value="assign">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
-            <input id="accept" type="submit" value="Accept this Delivery">
+            <button class="btn waves-effect waves-light red darken-4" id="accept" type="submit" name="action">Accept this delivery</button>
           </form>
         <% end %>
 
@@ -31,7 +31,7 @@
             <input type="hidden" name="event" value="cancel">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
-            <input id="cancel" type="submit" value="Cancel this Delivery">
+            <button class="btn waves-effect waves-light red darken-4" id="cancel" type="submit" name="action">Cancel this delivery</button>
           </form>
         <% end %>
 
@@ -40,7 +40,7 @@
           <input type="hidden" name="event" value="picked_up">
           <input id="lat" type="hidden" name="latitude">
           <input id="lon" type="hidden" name="longitude">
-          <input id="picked" type="submit" value="Picked Up">
+          <button class="btn waves-effect waves-light red darken-4" id="picked" type="submit" name="action" style="margin-top:20px;">Picked up</button>
         </form>
         <% end %>
 
@@ -52,7 +52,8 @@
             <input type="hidden" name="event" value="delivered">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
-            <input id="delivered" type="submit" value="Delivered">
+            <button class="btn waves-effect waves-light red darken-4" id="delivered" type="submit" name="action" style="margin-top:20px;">Delivered</button>
+            <!-- <input id="delivered" type="submit" value="Delivered"> -->
           </form>
         <% end %>
 
