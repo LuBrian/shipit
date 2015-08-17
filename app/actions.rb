@@ -145,6 +145,13 @@ end
 get '/profile' do
   is_session_valid
   @current_user = current_user
+  @all_packages = Package.all
+  @customer_packages = @all_packages.where(customer_id: @current_user.id ).order(:created_at)
+
+
+  @driver_packages = @all_packages.where(driver_id: @current_user.id ).order(:pick_up_time)
+  @new_packages = @all_packages.where(driver_id: nil ).order(:created_at)
+  @past_driver_packages = @all_packages.where(driver_id: @current_user.id).order(:delivery_time)
   erb :'profile/index'
 end
 

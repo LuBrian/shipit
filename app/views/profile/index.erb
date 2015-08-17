@@ -1,13 +1,13 @@
-<div class="row">
+<!-- <div class="row">
   <% if !@current_user.avatar.nil? %>
-    <div class="col s12 m12 l12 center">
+    <div class="col s12 m12 l3 center">
       <img id="avatar" src="/uploads/<%=@current_user.avatar%>"/>
     </div>
   <% end %>
-</div>
-
+</div> -->
+<!-- 
 <div class="row">
-  <div class="col s12 m12 l12 center">
+  <div class="col s12 m12 l3 center">
     <form action='/uploads' method="POST" enctype="multipart/form-data">
       <div class="fileUpload btn btn-primary">
         <span>Choose File</span>
@@ -17,30 +17,111 @@
     line-height: 31px;"class="btn waves-effect waves-light" type="submit">Upload</button>
     </form>
   </div>
+</div> -->
+
+
+<div class="row">
+
+  <div class="col s12 m12 l3 center">
+
+    <% if !@current_user.avatar.nil? %>
+      <img id="avatar" src="/uploads/<%=@current_user.avatar%>"/>
+    <% end %>
+
+    <form action='/uploads' method="POST" enctype="multipart/form-data">
+      <div class="fileUpload btn btn-primary">
+        <span>Choose File</span>
+        <input type="file" class="upload" name="file_info" />
+      </div>
+      <button style="font-size: 10px; height: 28px;
+    line-height: 31px;"class="btn waves-effect waves-light" type="submit">Upload</button>
+    </form>
+
+    <div class="profileside">
+  
+    <% if @current_user.type == "Driver" %>
+      <ul> 
+        <li><%= @current_user.email %></li>
+        <li><%= @current_user.phone_number %></li>
+        <li><%= @current_user.license_expiry %></li>
+        <li><%= @current_user.province %></li>
+      </ul>
+    <% elsif @current_user.type == "Customer" %>
+      <ul> 
+        <li><h1><%= @current_user.first_name %> <%= @current_user.last_name %></h1></li>
+        <li><%= @current_user.email %></li>
+        <li><%= @current_user.phone_number %></li>
+      </ul>
+    <% end %> 
+    <form action="/profile/edit" method="POST">
+      <input type="hidden" name="_method" value="get">
+      <!-- <input  type="submit" class="btn btn-default btn-xs" value="Edit profile" > -->
+      <button class="btn waves-effect waves-light" type="submit">
+        Edit Profile
+      </button>
+    </form>
+    </div>
+  </div>
+    
+  <div class="col s12 m12 l8 offset-l1 profilecontent"> 
+    
+    <% if @current_user.type == 'Customer'%>
+      <h1> Your Packages </h1>
+
+      <% if !@customer_packages.empty? %>
+        
+      <table class="striped">
+        <thead>
+          <tr>
+            <th data-field="id">Status</th>
+            <th data-field="name">Title</th>
+            <th data-field="price">Origin</th>
+            <th data-field="price">Destination</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+          <% @customer_packages.each do |package| %>
+          <tr>
+            <td>
+              <% if package.driver_id.nil? %>
+              Ready for Pickup
+              <% elsif package.driver_id && package.pick_up_time.nil? %>
+              Accepted
+              <% elsif package.pick_up_time && package.delivery_time.nil? %>
+              Picked Up
+              <% else package.delivery_time %>
+                Delivered
+                <!-- <%= package.delivery_time %> -->
+              <% end %>
+            </td>
+
+            <td>
+              <a href="/packages/<%= package.id %>">
+                <%= package.title %>
+              </a>
+            </td>
+
+            <td>
+              <%= package.origin %>
+            </td>
+
+            <td>
+              <%= package.destination %>
+            </td>
+
+          </tr>
+
+          <% end %>
+        </tbody>
+        </table>
+      
+      <%end%>
+    <%end%>
+
+  </div>
+
 </div>
 
-<h2><%= @current_user.first_name %> <%= @current_user.last_name %></h2>
 
-<div class="profile">
-  <% if @current_user.type == "Driver" %>
-    <p id="email"><%= @current_user.email %></p>
-    <p id="phone_number"><%= @current_user.phone_number %></p>
-    <p id="license"><%= @current_user.license %></p>
-    <p id="license_expiry"><%= @current_user.license_expiry %></p>
-    <p id="province"><%= @current_user.province %></p>
-
-  <% elsif @current_user.type == "Customer" %>
-    <p id="email"><%= @current_user.email %></p>
-    <p id="phone_number"><%= @current_user.phone_number %></p>
-  <% end %>
-</div>
-
-<form action="/profile/edit" method="POST">
-  <input type="hidden" name="_method" value="get">
-  <!-- <input  type="submit" class="btn btn-default btn-xs" value="Edit profile" > -->
-  <button class="btn waves-effect waves-light" type="submit">
-    Edit Profile
-  </button>
-</form>
-
-</div>
