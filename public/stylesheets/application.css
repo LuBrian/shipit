@@ -69,6 +69,15 @@ footer.page-footer {
   position:relative;
 }
 
+
+.error li{
+  background-color: #b71c1c;
+  max-width: 250px;
+  padding: 7px 28px;
+  border-radius: 25px;
+  margin-bottom: 5px;
+  color: #fff;
+}
 /*Table Elements*/
 
 tr {
