@@ -5,7 +5,7 @@
 </div>
 
 <div class="row" style="border-left: 1px solid #cfd8dc, border-right: 1px solid #cfd8dc ">
-  <div class="col s10 offset-s1 package-details">
+  <div class="col s10 offset-s1 package-details" style="padding: 0 30px 30px 30px">
     <h1> <%= @package.title %></h1>
 
     <div class="status">
@@ -106,32 +106,29 @@
         </form>
       <% end %>
 
-      <div>
-        <h1> Your Driver's Information </h1>
-
-        Driver ID: <%= @package.driver_id%>
+      <div class="row">
         <% if @driver %>
-          <p>
-          Driver Name: <%= @driver.first_name %> <%= @driver.last_name %>
-          </p>
-          <p>
-          <div class="row">
-            <% if !@driver.avatar.nil? %>
-              <div class="col s12 m12 l12 center">
-                <img id="avatar" src="/uploads/<%=@driver.avatar%>"/>
-              </div>
-            <% end %>
-          </div>
-          </p>
-          <div>
-          <h1> Map </h1>
-          <%= erb :'/packages/Customer_map' %>
-          </div>
+          <% if !@driver.avatar.nil? %>
+            <div class="col s12 m12 l3 center">
+              <img id="avatar" src="/uploads/<%=@driver.avatar%>"/>
+            </div>
+          <% end %>
 
-        <% end %>
-
+        <div class="col s12 m12 l8 offset-l1 driver-info">
+          <h1> Your Driver's Information </h1>
+            <p>Driver ID: <%= @package.driver_id%></p>
+          
+          <p>Driver Name: <%= @driver.first_name %> <%= @driver.last_name %></p>
+        </div> 
       </div>
-    <% end %>
+
+      <div>
+        <h1> Map </h1>
+        <%= erb :'/packages/Customer_map' %>
+      </div>
+
+       <% end %>
+      <% end %>
 
   </div>
 </div>

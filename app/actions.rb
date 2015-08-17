@@ -259,6 +259,7 @@ post '/packages/new' do
   end 
 
   if @package.persisted?
+    @driver = Driver.new
     redirect "/packages/#{@package.id}"
   else
     erb :'/packages/new'

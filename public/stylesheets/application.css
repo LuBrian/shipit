@@ -57,7 +57,10 @@
   width: 100%;
   margin: 40px 0 0 0;
   padding: 25px 25px 40px 25px !important;
+}
 
+.driver-info {
+  margin-top: 40px;
 }
 
 footer.page-footer {
