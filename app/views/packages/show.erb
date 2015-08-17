@@ -72,6 +72,17 @@
     </ul>
 
     <div>
+    <h1> Fare Details </h1>
+    <ul>
+      <li> Travel Distance: <%= (@package.distance / 1000) %>km</li>
+      <li> Base Fare: $2.50 </li>
+      <li> Fare Rate: $0.70/km </li>
+      <li> Total Fare (Base Fare + (Travel Distance x Fare Rate)): $<%= (@package.distance / 1000 * 0.7 + 2.5).round(2)  %></li>
+    </ul>
+    </div>
+
+
+    <div>
     <% if @current_user.type == "Driver" %>
     <h1> Map </h1>
       <%= erb :'/packages/Driver_map' %>
@@ -113,7 +124,6 @@
           </p>
           <div>
           <h1> Map </h1>
-          <!-- should change this to Customer's map -->
           <%= erb :'/packages/Customer_map' %>
           </div>
 

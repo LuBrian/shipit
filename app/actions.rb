@@ -229,6 +229,7 @@ post '/packages/new' do
       width: params[:width],
       height: params[:height],
       notes: params[:notes],
+      distance: params[:distance],
       customer_id: @current_user.id
       )
   else
@@ -270,7 +271,10 @@ post '/packages/:id' do
     when "assign"
       if can_assign_package?
         @package.driver_id = @current_user.id
-        @package.assigned_time = Time.now.in_time_zone("Pacific Time (US & Canada)") 
+        @package.assigned_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save 
       end 
     when "cancel"
@@ -282,11 +286,17 @@ post '/packages/:id' do
     when "picked_up"
       if can_pickup? #if you are assigned
         @package.pick_up_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save
       end 
     when "delivered"
       if can_deliver? #if you have picked up && assigned
         @package.delivery_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save
       end 
     end 
@@ -325,7 +335,8 @@ put '/packages/:id' do
         length: params[:length],
         width: params[:width],
         height: params[:height],
-        notes: params[:notes]
+        notes: params[:notes],
+        distance: params[:distance]
         )
         if !@package.driver_id.nil?
           @driver = Driver.find(@package.driver_id)
