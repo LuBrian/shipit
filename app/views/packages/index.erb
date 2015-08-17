@@ -12,7 +12,6 @@
           </tr>
         </thead>
 
-
         <tbody>
           <% @customer_packages.each do |package| %>
           <tr>
@@ -50,7 +49,6 @@
         </table>
 
       <% end %>
-
 
   <!-- <% @customer_packages.each do |package| %>
     <a href="/packages/<%= package.id %>">
@@ -130,9 +128,8 @@
       <% end %>
     </tbody>
   </table>
-    
-  
 
+  <script src="/javascript/mapstyle.js"></script>
   <script type="text/javascript">
     var map;
     var geocoder;
@@ -140,7 +137,7 @@
     var driver_location;
     // translate to json format the packages array
     var driver_packages_json = <%= @driver_packages.to_json %>;
-    var past_driver_packages_json = <%= @past_driver_packages.to_json %>;
+    // var past_driver_packages_json = <%= @past_driver_packages.to_json %>;
 
     // init the map
     function initialize(position) {
@@ -151,11 +148,12 @@
       //create a new instance of geocoder
       geocoder = new google.maps.Geocoder();
       // create a lat and long object
-      var latlng = new google.maps.LatLng(30, 180.25);
+      var latlng = new google.maps.LatLng(49.25, -123.1);
       // set the map object options (both are required)
       var mapOptions = {
         zoom: 8,
-        center: latlng
+        center: latlng,
+        styles: shipitStyles
       };
       // create a new map object
       map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -189,7 +187,7 @@
                 map: map,
                 position: results[0].geometry.location
             });
-            // if geocoding did not work, show an alert
+            // if geocoding did not work, showPositionw an alert
           } else {
             var p = document.createElement("P");
             var map_container = document.getElementById("map_container");
@@ -215,19 +213,8 @@
         var map_container = document.getElementById("map_container");
         p.innerHTML = "Geolocation is not supported by this browser: " + status;
         map_container.appendChild(p);
-        // x.innerHTML = "Geolocation is not supported by this browser.";
       }
     }
-
-    // function showPosition(position) {
-    //     x.innerHTML = "Latitude: " + position.coords.latitude + 
-    //     "<br>Longitude: " + position.coords.longitude;  
-    // }
-      // //test
-      // window.self.addEventListener(resize, function () {
-
-
-      // });
   </script>
 
   <div class="row">
