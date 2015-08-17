@@ -37,8 +37,9 @@
       <li><div id="map"></div></li>
     </ul>
 
+    <script src="/javascript/mapstyle.js"></script>
+    <script type="text/javascript">
 
-    <script>
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -50,8 +51,10 @@ function initMap() {
 
   
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10
+    zoom: 10,
+    styles: shipitStyles
   });
+
   var geocoder = new google.maps.Geocoder;
 
   // calculate distance and time between origin and destination

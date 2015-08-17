@@ -1,7 +1,69 @@
 <h1> Edit Your Package </h1>
 
-<form method="post" action="/packages/<%= @package.id %>"> 
-  <input type="hidden" name="_method" value="put"> 
-  <%= erb :'packages/form' %>
+
+<form onsubmit="return calculateDistance(this)" method="post" action="/packages/<%= @package.id %>">
+	<input id="distance" style="display: none" name="distance">
+	<input type="hidden" name="_method" value="put">
+  	<%= erb :'packages/form' %>
+	<input id="origin" value="okkook" style="display:none;">
 </form>
+
+<!-- Calculate the distance every time the form for a new package is sent -->
+
+<script>
+
+function calculateDistance(form) {
+	var origin = document.getElementById('origin').value
+	var destination = document.getElementById('destination').value
+	var geocoder = new google.maps.Geocoder;
+
+	// calculate distance and time between origin and destination
+	var service = new google.maps.DistanceMatrixService;
+	service.getDistanceMatrix({
+	origins: [origin],
+	destinations: [destination],
+	travelMode: google.maps.TravelMode.DRIVING,
+	unitSystem: google.maps.UnitSystem.METRIC,
+	avoidHighways: false,
+	avoidTolls: false
+	}, function(response, status) {
+	if (status !== google.maps.DistanceMatrixStatus.OK) {
+	  alert('Error was: ' + status);
+	} else {
+	  var originList = response.originAddresses;
+	  var destinationList = response.destinationAddresses;
+	  var distance_input = document.getElementById('distance');
+
+	  for (var i = 0; i < originList.length; i++) {
+	    var results = response.rows[i].elements;
+	    geocoder.geocode({'address': originList[i]});
+	    for (var j = 0; j < results.length; j++) {
+	      geocoder.geocode({'address': destinationList[j]});
+	    	try {
+	      distance_input.value = results[j].distance.value;
+	    	}
+	    		catch(err) {
+	    		// console.log(err);
+	    	}
+	    }
+
+	  }
+	  submitForm(form);
+	}
+	});
+
+	return false;
+}
+
+function submitForm(aForm) {
+	aForm.submit();
+}
+
+</script>
+
+
+
+
+
+
 

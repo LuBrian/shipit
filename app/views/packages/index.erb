@@ -1,7 +1,8 @@
 <% if @current_user.type == 'Customer'%>
     <h1> Your Packages </h1>
 
-    <% if @customer_packages %> 
+    <% if !@customer_packages.empty? %> 
+
       <table class="striped">
         <thead>
           <tr>
@@ -11,7 +12,6 @@
             <th data-field="price">Destination</th>
           </tr>
         </thead>
-
 
         <tbody>
           <% @customer_packages.each do |package| %>
@@ -49,47 +49,8 @@
         </tbody>
         </table>
 
-      <% end %>
+    <% end %>
 
-
-  <!-- <% @customer_packages.each do |package| %>
-    <a href="/packages/<%= package.id %>">
-    <div class="row">
-      <div class="col l12">
-        <div class="col l2">
-          <p>
-            <% if package.driver_id.nil? %>
-            Ready for Pickup
-            <% elsif package.driver_id && package.pick_up_time.nil? %>
-            Accepted
-            <% elsif package.pick_up_time && package.delivery_time.nil? %>
-            Picked Up
-            <% else package.delivery_time %>
-              Delivered
-              <!-- <%= package.delivery_time %> -->
-            <!-- <% end %>
-          </p>
-        </div>
-        <div class="col l4">
-          <p>
-            <%= package.title %>
-          </p>
-        </div>
-        <div class="col l3">
-          <p>
-            <%= package.origin %>
-          </p>
-        </div>
-        <div class="col l3">
-          <p>
-            <%= package.destination %>
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-    </a>
-  <% end %> -->
 
 <% elsif @current_user.type == 'Driver'%>
   <h1> Your Deliveries </h1>
@@ -130,9 +91,8 @@
       <% end %>
     </tbody>
   </table>
-    
-  
 
+  <script src="/javascript/mapstyle.js"></script>
   <script type="text/javascript">
     var map;
     var geocoder;
@@ -140,7 +100,7 @@
     var driver_location;
     // translate to json format the packages array
     var driver_packages_json = <%= @driver_packages.to_json %>;
-    var past_driver_packages_json = <%= @past_driver_packages.to_json %>;
+    // var past_driver_packages_json = <%= @past_driver_packages.to_json %>;
 
     // init the map
     function initialize(position) {
@@ -151,11 +111,12 @@
       //create a new instance of geocoder
       geocoder = new google.maps.Geocoder();
       // create a lat and long object
-      var latlng = new google.maps.LatLng(30, 180.25);
+      var latlng = new google.maps.LatLng(49.25, -123.1);
       // set the map object options (both are required)
       var mapOptions = {
         zoom: 8,
-        center: latlng
+        center: latlng,
+        styles: shipitStyles
       };
       // create a new map object
       map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -189,7 +150,7 @@
                 map: map,
                 position: results[0].geometry.location
             });
-            // if geocoding did not work, show an alert
+            // if geocoding did not work, showPositionw an alert
           } else {
             var p = document.createElement("P");
             var map_container = document.getElementById("map_container");
@@ -215,19 +176,8 @@
         var map_container = document.getElementById("map_container");
         p.innerHTML = "Geolocation is not supported by this browser: " + status;
         map_container.appendChild(p);
-        // x.innerHTML = "Geolocation is not supported by this browser.";
       }
     }
-
-    // function showPosition(position) {
-    //     x.innerHTML = "Latitude: " + position.coords.latitude + 
-    //     "<br>Longitude: " + position.coords.longitude;  
-    // }
-      // //test
-      // window.self.addEventListener(resize, function () {
-
-
-      // });
   </script>
 
   <div class="row">

@@ -1,9 +1,13 @@
-
 /*Elements*/
+
+body {
+  background-color: #f5f5f5;
+}
 
 .dropdown-content li>a {
   font-size: 1.0rem;
 }
+
 
 .btn {
   background-color: #64b5f6 !important;
@@ -43,6 +47,22 @@
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+.profileside {
+  margin: 40px 0 0 px !important;
+  background-color: #fff;
+  padding-top: 2px !important;
+  padding-bottom: 25px !important;
+
+}
+
+.profilecontent {
+  background-color: #fff;
+  width: 100%;
+  margin: 40px 0 0 0;
+  padding: 25px 25px 40px 25px !important;
+
 }
 
 footer.page-footer {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150816050129) do
+ActiveRecord::Schema.define(version: 20150816222128) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20150816050129) do
     t.datetime "assigned_time"
     t.datetime "pick_up_time"
     t.datetime "delivery_time"
+    t.float    "distance"
   end
 
   create_table "users", force: :cascade do |t|

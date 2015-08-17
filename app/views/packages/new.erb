@@ -29,18 +29,27 @@ function calculateDistance(form) {
 	if (status !== google.maps.DistanceMatrixStatus.OK) {
 	  alert('Error was: ' + status);
 	} else {
+		console.log('in response from google!');
+		console.log(response);
 	  var originList = response.originAddresses;
 	  var destinationList = response.destinationAddresses;
 	  var distance_input = document.getElementById('distance');
 
 	  for (var i = 0; i < originList.length; i++) {
 	    var results = response.rows[i].elements;
+	    console.log(results);
 	    geocoder.geocode({'address': originList[i]});
 	    for (var j = 0; j < results.length; j++) {
 	      geocoder.geocode({'address': destinationList[j]});
+	      try {
 	      distance_input.value = results[j].distance.value;
+	    	}
+	    	catch(err) {
+	    		// console.log(err);
+	    	}
 	    }
 	  }
+	  console.log('just before submitForm');
 	  submitForm(form);
 	}
 	});
@@ -49,6 +58,7 @@ function calculateDistance(form) {
 }
 
 function submitForm(aForm) {
+	console.log('Submitting the form!!');
 	aForm.submit();
 }
 
