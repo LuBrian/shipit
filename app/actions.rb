@@ -218,7 +218,7 @@ end
 post '/packages/new' do 
   is_session_valid
   @current_user = current_user
-  puts params[:distance] 
+
   if @current_user.is_a?(Customer)
     @package = Package.create(
       title: params[:title],
@@ -263,7 +263,8 @@ end
 post '/packages/:id' do
   is_session_valid
   @current_user = current_user 
-  @package = Package.find_by(id: params[:id]) 
+  @package = Package.find_by(id: params[:id])
+  binding.pry
   if @package
     event = params[:event]
 
@@ -350,8 +351,6 @@ put '/packages/:id' do
     end 
   end 
   # DRIVER ACCEPTING ABILITIES 
-
-
 end 
 
 delete '/packages/:id' do 
