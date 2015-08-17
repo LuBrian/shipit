@@ -5,7 +5,7 @@
     <style>
       #map {
         height: 500px; 
-        width: 500px;
+        max-width: 500px;
       }
     </style>
 
@@ -27,10 +27,10 @@
 
 
   <body>
-    <input id="start" type="textbox" value="9911 Ash street, Richmond" style="display: none" onchange="calcRoute();">
-    <input id="end" type="textbox" value="T6H 0B1" style="display: none" onchange="calcRoute();">
-    <input id="latitude" type="textbox" value="-25.363" style="display: none" onchange="calcRoute();">
-    <input id="longitude" type="textbox" value="131.044" style="display: none" onchange="calcRoute();">
+    <input id="start" type="textbox" value="<%= @package.origin %>" style="display: none" onchange="calcRoute();">
+    <input id="end" type="textbox" value="<%= @package.destination %>" style="display: none" onchange="calcRoute();">
+    <input id="latitude" type="textbox" value="<%= @driver.latitude %>" style="display: none" onchange="calcRoute();">
+    <input id="longitude" type="textbox" value="<%= @driver.longitude %>" style="display: none" onchange="calcRoute();">
     <ul>
       <li><div id="outputOri"></div></li>
       <li><div id="outputDes"></div></li>
@@ -38,8 +38,9 @@
     </ul>
     <div id="map"></div>
 
+<script src="/javascript/mapstyle.js"></script>
+<script type="text/javascript">
 
-<script>
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -50,11 +51,9 @@ function initMap() {
   var latitude = parseFloat(document.getElementById('latitude').value)
   var longitude = parseFloat(document.getElementById('longitude').value)
 
-
-  
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
-
+    styles: shipitStyles
   });
   var geocoder = new google.maps.Geocoder;
 

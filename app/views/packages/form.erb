@@ -6,7 +6,6 @@
   <% end %>
 </ul>
 
-
   <div class="col l4">
     <label> Title </label>
     <input type="text" placeholder="A Title for Your Package" name="title" value="<%= @package.title %>">
@@ -19,12 +18,12 @@
 
 <div class="col s8">
   <label> Origin </label>
-  <input type="text" placeholder="Where is your package coming from?" name="origin" value="<%= @package.origin %>">
+  <input id="origin" type="text" placeholder="Where is your package coming from?" name="origin" value="<%= @package.origin %>">
 </div>
 
 <div class="col s8">
   <label> Destination </label>
-  <input type="text" placeholder="Where is your package going?" name="destination" value="<%= @package.destination %>">
+  <input id="destination" type="text" placeholder="Where is your package going?" name="destination" value="<%= @package.destination %>">
 </div>
 
 

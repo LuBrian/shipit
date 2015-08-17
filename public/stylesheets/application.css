@@ -3,6 +3,12 @@
 body {
   background-color: #f5f5f5;
 }
+
+.dropdown-content li>a {
+  font-size: 1.0rem;
+}
+
+
 .btn {
   background-color: #64b5f6 !important;
   box-shadow: none;
@@ -169,6 +175,17 @@ nav .brand-logo {
     /*.overlay {
       font-size: 100px;
     }*/
+    h2.signup_driver {
+      font-size: 31px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    h2.signup_customer {
+      font-size: 27px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
   }
 
 @media only screen
@@ -180,22 +197,43 @@ nav .brand-logo {
     .overlay .hero-signup {
       font-size: 15px;
     }
+
+    h2.signup_driver {
+      font-size: 31px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    h2.signup_customer {
+      font-size: 27px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
   }
 
-@media only screen
-  and (max-width: 600px) {
-    .overlay {
-      font-size: 40px;
-      top: 20%;
-    }
-    .overlay .hero-signup {
-      font-size: 18px;
-    }
-  }
 
   @media only screen
     and (max-width: 600px) {
+      .overlay {
+        font-size: 40px;
+        top: 20%;
+      }
+      .overlay .hero-signup {
+        font-size: 18px;
+      }
+
       td {
         font-size:12px;
+      }
+      h2.signup_driver {
+        font-size: 15px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      h2.signup_customer {
+        font-size: 17px;
+        text-transform: uppercase;
+        font-weight: 600;
       }
     }

@@ -9,7 +9,6 @@ helpers do
 
   def get_user(email, password_hash)
     user = User.find_by(email: email)
-    # binding.pry
     if user && user.password_hash == password_hash
       session[:id] = user.id
       user
@@ -39,6 +38,16 @@ helpers do
 
   def can_deliver?
     @package.driver_id == @current_user.id && @package.pick_up_time
+  end 
+
+  def get_customer_packages
+    @all_packages = Package.all
+    @customer_packages = @all_packages.where(customer_id: @current_user.id ).order(:created_at)
+  end 
+
+  def get_driver_packages
+    @all_packages = Package.all
+    @driver_packages = @all_packages.where(driver_id: @current_user.id ).order(:pick_up_time)
   end 
 end 
 
@@ -99,6 +108,7 @@ post '/signup_customer' do
     )
     if @current_user.save
       session[:id] = @current_user.id
+      get_customer_packages
       erb :'profile/index'
     else
       erb :'profile/signup_customer'
@@ -121,6 +131,7 @@ post '/signup_driver' do
   )
   if @current_user.save
       session[:id] = @current_user.id
+      get_driver_packages
       erb :'profile/index'
   else
       erb :'profile/signup_driver'
@@ -174,6 +185,8 @@ put '/profile' do
       province: params[:province]
     )
     if @current_user.save
+      @current_user = current_user 
+      get_driver_packages
       erb :'profile/index'
     else
       erb :'profile/edit'
@@ -188,6 +201,8 @@ put '/profile' do
       phone_number: params[:phone_number]
     )
     if @current_user.save
+      @current_user = current_user 
+      get_customer_packages
       erb :'profile/index'
     else
       erb :'profile/edit'
@@ -224,7 +239,8 @@ end
 
 post '/packages/new' do 
   is_session_valid
-  @current_user = current_user 
+  @current_user = current_user
+
   if @current_user.is_a?(Customer)
     @package = Package.create(
       title: params[:title],
@@ -235,6 +251,7 @@ post '/packages/new' do
       width: params[:width],
       height: params[:height],
       notes: params[:notes],
+      distance: params[:distance],
       customer_id: @current_user.id
       )
   else
@@ -268,7 +285,7 @@ end
 post '/packages/:id' do
   is_session_valid
   @current_user = current_user 
-  @package = Package.find_by(id: params[:id]) 
+  @package = Package.find_by(id: params[:id])
   if @package
     event = params[:event]
 
@@ -276,7 +293,10 @@ post '/packages/:id' do
     when "assign"
       if can_assign_package?
         @package.driver_id = @current_user.id
-        @package.assigned_time = Time.now.in_time_zone("Pacific Time (US & Canada)") 
+        @package.assigned_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save 
       end 
     when "cancel"
@@ -288,11 +308,17 @@ post '/packages/:id' do
     when "picked_up"
       if can_pickup? #if you are assigned
         @package.pick_up_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save
       end 
     when "delivered"
       if can_deliver? #if you have picked up && assigned
         @package.delivery_time = Time.now.in_time_zone("Pacific Time (US & Canada)")
+        @current_user.latitude = params[:latitude] 
+        @current_user.longitude = params[:longitude]
+        @current_user.save
         @package.save
       end 
     end 
@@ -331,7 +357,8 @@ put '/packages/:id' do
         length: params[:length],
         width: params[:width],
         height: params[:height],
-        notes: params[:notes]
+        notes: params[:notes],
+        distance: params[:distance]
         )
         if !@package.driver_id.nil?
           @driver = Driver.find(@package.driver_id)
@@ -345,8 +372,6 @@ put '/packages/:id' do
     end 
   end 
   # DRIVER ACCEPTING ABILITIES 
-
-
 end 
 
 delete '/packages/:id' do 
@@ -384,6 +409,8 @@ end
 
 post '/uploads' do
   @current_user = current_user 
+  get_customer_packages
+  get_driver_packages
   if !@current_user.avatar.nil?
     File.delete("./public/uploads/#{@current_user.avatar}") if File.exist?("./public/uploads/#{@current_user.avatar}")
   end 

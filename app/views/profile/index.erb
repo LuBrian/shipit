@@ -41,6 +41,7 @@
   
     <% if @current_user.type == "Driver" %>
       <ul> 
+        <li><h1><%= @current_user.first_name %> <%= @current_user.last_name %></h1></li>
         <li><%= @current_user.email %></li>
         <li><%= @current_user.phone_number %></li>
         <li><%= @current_user.license_expiry %></li>
@@ -118,6 +119,47 @@
         </table>
       
       <%end%>
+
+
+      <% elsif @current_user.type == 'Driver'%>
+  <h1> Your Deliveries </h1>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th data-field="id">Status</th>
+        <th data-field="name">Title</th>
+        <th data-field="price">Origin</th>
+        <th data-field="price">Destination</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @driver_packages.each do |package| %>
+      <tr>
+        <td>
+          <% if package.driver_id && package.pick_up_time.nil? %>
+          Accepted
+          <% else  package.pick_up_time && package.delivery_time.nil? %>
+          Picked Up
+          <% end %>
+        </td>
+
+        <td>
+          <a href="/packages/<%= package.id %>"><%= package.title %></a>
+        </td>
+
+        <td>
+          <%= package.origin %>
+        </td>
+        
+        <td>
+          <%= package.destination %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
     <%end%>
 
   </div>

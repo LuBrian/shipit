@@ -15,7 +15,7 @@
         Ready for Pickup 
 
         <% if @current_user.type == "Driver" %>
-          <form id="state_form" onsubmit="return youCanSubmitNow()" method="post" action="/packages/<%=@package.id %>">
+          <form id="state_form" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="assign">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
@@ -72,6 +72,17 @@
     </ul>
 
     <div>
+    <h1> Fare Details </h1>
+    <ul>
+      <li> Travel Distance: <%= (@package.distance / 1000) %>km</li>
+      <li> Base Fare: $2.50 </li>
+      <li> Fare Rate: $0.70/km </li>
+      <li> Total Fare (Base Fare + (Travel Distance x Fare Rate)): $<%= (@package.distance / 1000 * 0.7 + 2.5).round(2)  %></li>
+    </ul>
+    </div>
+
+
+    <div>
     <% if @current_user.type == "Driver" %>
     <h1> Map </h1>
       <%= erb :'/packages/Driver_map' %>
@@ -113,8 +124,7 @@
           </p>
           <div>
           <h1> Map </h1>
-          <!-- should change this to Customer's map -->
-          <%= erb :'/packages/Driver_map' %>
+          <%= erb :'/packages/Customer_map' %>
           </div>
 
         <% end %> 
@@ -134,8 +144,8 @@
   });  
 
   function savePositionInDB(pos) {
-    // console.log('SAVINGS!!!');
-    // console.log(pos);
+    console.log('in savePositionInDB');
+    console.log(pos);
 
     // submit!!!  Or send info to database
     var input_lat = document.getElementById('lat');
@@ -150,6 +160,7 @@
   }
 
   function youCanSubmitNow(aForm) {
+    console.log(aForm);
     form = aForm;
     getLocation();
     return false;
@@ -161,8 +172,10 @@
   }
 
   function getLocation() {
+    console.log('in getLoction');
     // console.log('getLocation called!');
     if (navigator.geolocation) {
+      console.log('in geolocation');
       // console.log("geolocation supported!!!");
       navigator.geolocation.getCurrentPosition(
         savePositionInDB, 
