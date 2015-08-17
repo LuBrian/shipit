@@ -93,7 +93,7 @@
     <% if @current_user.type == "Customer" %>
 
       <button class="btn waves-effect waves-light" id="delete" type="submit" name="action"><a style="color: #fff;" href='/packages/<%=@package.id %>/edit'>Edit Package</a></button>
-
+      <br/>
       <% if @package.driver_id.nil? %>
         Your package has not been accepted yet. You may still cancel your delivery.
         <br/>
