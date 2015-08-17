@@ -11,6 +11,6 @@ $(document).ready(function() {
 	//     zoom: 8
 	//   });
 	// }
+
+  $(".dropdown-button").dropdown();
 });
-
-

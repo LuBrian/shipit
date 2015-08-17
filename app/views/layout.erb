@@ -45,7 +45,7 @@
   <li><a href="/history">History</a></li>
   <% if @current_user && @current_user.type == "Driver" %>
     <li class="divider"></li>
-  <% end %> 
+  <% end %>
   <li><a href="/logout">Logout</a></li>
 </ul>
 
@@ -88,6 +88,8 @@
             <li><a href="/history">History</a></li>
         <% end %>
           <li><a href="/profile">My Account</span></a></li>
+          <li><a href="/profile/edit">Edit Profile</a></li>
+          <li><a href="/history">History</a></li>
           <li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
