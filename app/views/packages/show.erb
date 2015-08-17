@@ -1,18 +1,18 @@
-<div class="row"> 
-  <div class="col s6 offset-s3">
-    <h1> Your Package Details </h1> 
+<div class="row" style="margin-top: 20px; margin-bottom: 0px;">
+  <div class="col s10 offset-s1 package-details-header">
+    <h1> Your Package Details </h1>
   </div>
 </div>
 
-<div class="row"> 
-  <div class="col s6 offset-s3">
+<div class="row" style="border-left: 1px solid #cfd8dc, border-right: 1px solid #cfd8dc ">
+  <div class="col s10 offset-s1 package-details">
     <h1> <%= @package.title %></h1>
-    
-    <div class="status"> 
+
+    <div class="status">
 
       Status:
       <% if @package.driver_id.nil? %>
-        Ready for Pickup 
+        Ready for Pickup
 
         <% if @current_user.type == "Driver" %>
           <form id="state_form" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
@@ -21,7 +21,7 @@
             <input id="lon" type="hidden" name="longitude">
             <input id="accept" type="submit" value="Accept this Delivery">
           </form>
-        <% end %> 
+        <% end %>
 
       <% elsif @package.driver_id && @package.pick_up_time.nil? %>
         Accepted at <%= @package.assigned_time.strftime('%c') %>
@@ -33,7 +33,7 @@
             <input id="lon" type="hidden" name="longitude">
             <input id="cancel" type="submit" value="Cancel this Delivery">
           </form>
-        <% end %> 
+        <% end %>
 
         <% if @current_user.type == "Driver" %>
           <form id="state_form_picked_up" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
@@ -47,23 +47,23 @@
       <% elsif  @package.pick_up_time && @package.delivery_time.nil? %>
         Picked Up at <%= @package.pick_up_time.strftime('%c') %>
 
-        <% if @current_user.type == "Driver" %> 
+        <% if @current_user.type == "Driver" %>
           <form id="state_form" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
             <input type="hidden" name="event" value="delivered">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
             <input id="delivered" type="submit" value="Delivered">
           </form>
-        <% end %> 
+        <% end %>
 
-      <% elsif  @package.delivery_time %> 
+      <% elsif  @package.delivery_time %>
         Delivered at <%= @package.delivery_time.strftime('%c') %>
 
-      <% end %> 
+      <% end %>
 
     </div>
-  
-    <ul> 
+
+    <ul>
       <li> Recipient: <%= @package.recipient %> </li>
       <li> Origin: <%= @package.origin %> </li>
       <li> Destination: <%= @package.destination %> </li>
@@ -78,27 +78,28 @@
     <% end %>
     </div>
 
-    
+
     <% if @current_user.type == "Customer" %>
 
-      <a href='/packages/<%=@package.id %>/edit'> Edit Your Package Details </a>
+      <button class="btn waves-effect waves-light" id="delete" type="submit" name="action"><a style="color: #fff;" href='/packages/<%=@package.id %>/edit'>Edit Package</a></button>
 
-      <% if @package.driver_id.nil? %> 
-        Your package has not been accepted yet. You may still cancel your delivery. 
-        <br/> 
+      <% if @package.driver_id.nil? %>
+        Your package has not been accepted yet. You may still cancel your delivery.
+        <br/>
         <form method="post" action="/packages/<%=@package.id %>">
           <input type="hidden" name="_method" value="delete">
           <input id="lat" type="hidden" name="latitude">
-          <input id="lon" type="hidden" name="longitude">  
-          <input type="submit" value="Delete Package">
+          <input id="lon" type="hidden" name="longitude">
+          <button class="btn waves-effect waves-light red darken-4" id="delete" type="submit" name="action">Delete Package</button>
+          <!-- <insput type="submit" value="Delete Package"> -->
         </form>
       <% end %>
-      
-      <div> 
+
+      <div>
         <h1> Your Driver's Information </h1>
 
-        Driver ID: <%= @package.driver_id%> 
-        <% if @driver %> 
+        Driver ID: <%= @package.driver_id%>
+        <% if @driver %>
           <p>
           Driver Name: <%= @driver.first_name %> <%= @driver.last_name %>
           </p>
@@ -117,11 +118,11 @@
           <%= erb :'/packages/Customer_map' %>
           </div>
 
-        <% end %> 
+        <% end %>
 
       </div>
     <% end %>
-  
+
   </div>
 </div>
 
@@ -131,7 +132,7 @@
   button.addEventListener('click', function (el) {
     getLocation();
     // console.log('accept button clicked!');
-  });  
+  });
 
   function savePositionInDB(pos) {
     console.log('in savePositionInDB');
@@ -168,7 +169,7 @@
       console.log('in geolocation');
       // console.log("geolocation supported!!!");
       navigator.geolocation.getCurrentPosition(
-        savePositionInDB, 
+        savePositionInDB,
         onPositionError
       );
     } else {
@@ -181,5 +182,3 @@
   }
 
 </script>
-    
- 
