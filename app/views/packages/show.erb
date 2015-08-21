@@ -28,20 +28,22 @@
 
         <% if @current_user.type == "Driver" %>
           <form id="state_form_cancel" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
-            <input type="hidden" name="event" value="cancel">
-            <input id="lat" type="hidden" name="latitude">
-            <input id="lon" type="hidden" name="longitude">
-            <button class="btn waves-effect waves-light red darken-4" id="cancel" type="submit" name="action">Cancel this delivery</button>
+              <input type="hidden" name="event" value="cancel">
+              <input id="lat" type="hidden" name="latitude">
+              <input id="lon" type="hidden" name="longitude">
+                <button class="btn waves-effect waves-light red darken-4" id="cancel" type="submit" name="action">Cancel this delivery
+                </button>
           </form>
         <% end %>
 
         <% if @current_user.type == "Driver" %>
           <form id="state_form_picked_up" onsubmit="return youCanSubmitNow(this)" method="post" action="/packages/<%=@package.id %>">
-          <input type="hidden" name="event" value="picked_up">
-          <input id="lat" type="hidden" name="latitude">
-          <input id="lon" type="hidden" name="longitude">
-          <button class="btn waves-effect waves-light red darken-4" id="picked" type="submit" name="action" style="margin-top:20px;">Picked up</button>
-        </form>
+            <input type="hidden" name="event" value="picked_up">
+            <input id="lat" type="hidden" name="latitude">
+            <input id="lon" type="hidden" name="longitude">
+              <button class="btn waves-effect waves-light red darken-4" id="picked" type="submit" name="action" style="margin-top:20px;">Picked up
+              </button>
+          </form>
         <% end %>
 
       <% elsif  @package.pick_up_time && @package.delivery_time.nil? %>
@@ -52,8 +54,8 @@
             <input type="hidden" name="event" value="delivered">
             <input id="lat" type="hidden" name="latitude">
             <input id="lon" type="hidden" name="longitude">
-            <button class="btn waves-effect waves-light red darken-4" id="delivered" type="submit" name="action" style="margin-top:20px;">Delivered</button>
-            <!-- <input id="delivered" type="submit" value="Delivered"> -->
+            <button class="btn waves-effect waves-light red darken-4" id="delivered" type="submit" name="action" style="margin-top:20px;">Delivered
+            </button>
           </form>
         <% end %>
 
@@ -73,27 +75,29 @@
     </ul>
 
     <div>
-    <h1> Fare Details </h1>
-    <ul>
-      <li> Travel Distance: <%= (@package.distance / 1000) %>km</li>
-      <li> Base Fare: $2.50 </li>
-      <li> Fare Rate: $0.70/km </li>
-      <li> Total Fare (Base Fare + (Travel Distance x Fare Rate)): $<%= (@package.distance / 1000 * 0.7 + 2.5).round(2)  %></li>
-    </ul>
+      <h1> Fare Details </h1>
+      <ul>
+        <li> Travel Distance: <%= (@package.distance / 1000) %>km</li>
+        <li> Base Fare: $2.50 </li>
+        <li> Fare Rate: $0.70/km </li>
+        <li> Total Fare (Base Fare + (Travel Distance x Fare Rate)): $<%= (@package.distance / 1000 * 0.7 + 2.5).round(2)  %></li>
+      </ul>
     </div>
 
 
-    <div>
+
     <% if @current_user.type == "Driver" %>
-    <h1> Map </h1>
-      <%= erb :'/packages/Driver_map' %>
+      <h1> Map </h1>
+        <%= erb :'/packages/Driver_map' %>
     <% end %>
-    </div>
+
 
 
     <% if @current_user.type == "Customer" %>
 
-      <button class="btn waves-effect waves-light" id="delete" type="submit" name="action"><a style="color: #fff;" href='/packages/<%=@package.id %>/edit'>Edit Package</a></button>
+      <button class="btn waves-effect waves-light" id="delete" type="submit" name="action">
+        <a style="color: #fff;" href='/packages/<%=@package.id %>/edit'>Edit Package</a>
+      </button>
       <br/>
       <% if @package.driver_id.nil? %>
         Your package has not been accepted yet. You may still cancel your delivery.
@@ -102,7 +106,8 @@
           <input type="hidden" name="_method" value="delete">
           <input id="lat" type="hidden" name="latitude">
           <input id="lon" type="hidden" name="longitude">
-          <button class="btn waves-effect waves-light red darken-4" id="delete" type="submit" name="action">Delete Package</button>
+            <button class="btn waves-effect waves-light red darken-4" id="delete" type="submit" name="action">Delete Package
+            </button>
           <!-- <insput type="submit" value="Delete Package"> -->
         </form>
       <% end %>
@@ -115,21 +120,22 @@
             </div>
           <% end %>
 
-        <div class="col s12 m12 l8 offset-l1 driver-info">
-          <h1> Your Driver's Information </h1>
-            <p>Driver ID: <%= @package.driver_id%></p>
-          
-          <p>Driver Name: <%= @driver.first_name %> <%= @driver.last_name %></p>
-        </div> 
-      </div>
+          <div class="col s12 m12 l8 offset-l1 driver-info">
+            <h1>Your Driver's Information</h1>
+              <p>Driver ID: <%= @package.driver_id%></p>
+            
+            <p>Driver Name: <%= @driver.first_name %> <%= @driver.last_name %></p>
+          </div> 
+        </div>
 
-      <div>
-        <h1> Map </h1>
-        <%= erb :'/packages/Customer_map' %>
-      </div>
+        <div>
+          <h1> Map </h1>
+          <%= erb :'/packages/Customer_map' %>
+        </div>
 
-       <% end %>
       <% end %>
+    </div>
+    <% end %>
 
   </div>
 </div>
