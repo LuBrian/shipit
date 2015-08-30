@@ -11,7 +11,7 @@
 **Goal:**
 the app enables customers to add packages and track them when shipped. It allows drivers to accept a package from a list of available packages. A driver is responsible for updating the state of his packages. 
 
-**Timeframe:** project done in four days in a team of four
+**Context:** app done in four days in a team of four for the midterm project at LighthouseLabs
 
 **Features:**
 - Customers:
