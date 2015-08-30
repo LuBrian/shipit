@@ -9,12 +9,9 @@
 **Online access:** http://lhlshipit.herokuapp.com/
 
 **Goal:**
-the app enables customers to add packages and track them when shipped. It allows drivers to accept a package from a list of available packages. A driver is responsible for updating the state of his course. There are four states: 
+the app enables customers to add packages and track them when shipped. It allows drivers to accept a package from a list of available packages. A driver is responsible for updating the state of his packages. 
 
-1. "accepted"
-2. "ready for pickup"
-3. "picked up"
-4. "delivered"
+**Timeframe:** project done in four days in a team of four
 
 **Features:**
 - Customers:
